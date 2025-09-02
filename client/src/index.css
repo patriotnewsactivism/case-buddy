@@ -1,0 +1,229 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(45, 100%, 98%);
+  --foreground: hsl(220, 15%, 20%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(220, 15%, 20%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(220, 15%, 20%);
+  --primary: hsl(25, 95%, 53%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(45, 80%, 95%);
+  --secondary-foreground: hsl(220, 15%, 25%);
+  --muted: hsl(45, 50%, 96%);
+  --muted-foreground: hsl(220, 10%, 55%);
+  --accent: hsl(40, 90%, 92%);
+  --accent-foreground: hsl(220, 15%, 25%);
+  --destructive: hsl(0, 85%, 58%);
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --border: hsl(45, 30%, 88%);
+  --input: hsl(45, 40%, 94%);
+  --ring: hsl(25, 95%, 53%);
+  --chart-1: hsl(25, 95%, 53%);
+  --chart-2: hsl(160, 85%, 45%);
+  --chart-3: hsl(45, 95%, 55%);
+  --chart-4: hsl(350, 85%, 60%);
+  --chart-5: hsl(270, 85%, 65%);
+  --sidebar: hsl(35, 100%, 96%);
+  --sidebar-foreground: hsl(220, 15%, 25%);
+  --sidebar-primary: hsl(25, 95%, 53%);
+  --sidebar-primary-foreground: hsl(0, 0%, 100%);
+  --sidebar-accent: hsl(40, 80%, 90%);
+  --sidebar-accent-foreground: hsl(220, 15%, 25%);
+  --sidebar-border: hsl(45, 30%, 85%);
+  --sidebar-ring: hsl(25, 95%, 53%);
+  --font-sans: Inter, system-ui, sans-serif;
+  --font-serif: Georgia, serif;
+  --font-mono: JetBrains Mono, monospace;
+  --radius: 0.75rem;
+}
+
+.dark {
+  --background: hsl(222.2, 84%, 4.9%);
+  --foreground: hsl(210, 40%, 98%);
+  --card: hsl(222.2, 84%, 4.9%);
+  --card-foreground: hsl(210, 40%, 98%);
+  --popover: hsl(222.2, 84%, 4.9%);
+  --popover-foreground: hsl(210, 40%, 98%);
+  --primary: hsl(214, 84%, 56%);
+  --primary-foreground: hsl(222.2, 84%, 4.9%);
+  --secondary: hsl(217.2, 32.6%, 17.5%);
+  --secondary-foreground: hsl(210, 40%, 98%);
+  --muted: hsl(217.2, 32.6%, 17.5%);
+  --muted-foreground: hsl(215, 20.2%, 65.1%);
+  --accent: hsl(217.2, 32.6%, 17.5%);
+  --accent-foreground: hsl(210, 40%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(210, 40%, 98%);
+  --border: hsl(217.2, 32.6%, 17.5%);
+  --input: hsl(217.2, 32.6%, 17.5%);
+  --ring: hsl(214, 84%, 56%);
+  --sidebar: hsl(222.2, 84%, 4.9%);
+  --sidebar-foreground: hsl(210, 40%, 98%);
+  --sidebar-primary: hsl(214, 84%, 56%);
+  --sidebar-primary-foreground: hsl(222.2, 84%, 4.9%);
+  --sidebar-accent: hsl(217.2, 32.6%, 17.5%);
+  --sidebar-accent-foreground: hsl(210, 40%, 98%);
+  --sidebar-border: hsl(217.2, 32.6%, 17.5%);
+  --sidebar-ring: hsl(214, 84%, 56%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .timeline-line {
+    background: linear-gradient(to bottom, hsl(var(--primary)), hsl(var(--chart-2)));
+    box-shadow: 0 2px 8px hsla(var(--primary), 0.2);
+  }
+
+  .case-header {
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--chart-3)) 50%, hsl(var(--chart-2)) 100%);
+    box-shadow: 0 4px 20px hsla(var(--primary), 0.25);
+  }
+
+  .evidence-zoom:hover {
+    transform: scale(1.02);
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 8px 25px hsla(var(--primary), 0.15);
+  }
+
+  .sidebar-nav {
+    backdrop-filter: blur(15px);
+    border-right: 1px solid hsl(var(--border));
+    box-shadow: 2px 0 15px hsla(var(--primary), 0.08);
+  }
+
+  .case-stat {
+    background: linear-gradient(135deg, hsl(var(--card)) 0%, hsl(var(--accent)) 100%);
+    border: 1px solid hsl(var(--border));
+    box-shadow: 0 2px 10px hsla(var(--primary), 0.1);
+    transition: all 0.2s ease-in-out;
+  }
+
+  .case-stat:hover {
+    box-shadow: 0 4px 20px hsla(var(--primary), 0.15);
+    transform: translateY(-1px);
+  }
+
+  .document-viewer {
+    max-height: 70vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: linear-gradient(to bottom, hsl(var(--card)), hsl(var(--muted)));
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Fix text overlapping in document viewer */
+  .document-viewer iframe,
+  .document-viewer img {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .document-viewer iframe {
+    min-height: 60vh;
+  }
+
+  /* Ensure proper spacing and prevent overlap */
+  .document-viewer + * {
+    margin-top: 1rem;
+    clear: both;
+  }
+
+  /* Fix for uppy modal z-index and mobile responsiveness */
+  .uppy-Dashboard-isInner {
+    z-index: 9999 !important;
+  }
+
+  .uppy-Dashboard-modalOverlay {
+    z-index: 9998 !important;
+    background-color: rgba(0, 0, 0, 0.8) !important;
+  }
+
+  /* Mobile responsive uppy modal */
+  @media (max-width: 768px) {
+    .uppy-Dashboard-modal {
+      width: 95vw !important;
+      height: 90vh !important;
+      max-width: 95vw !important;
+      max-height: 90vh !important;
+      margin: 2.5vh auto !important;
+      border-radius: 12px !important;
+    }
+
+    .uppy-Dashboard-isInner {
+      width: 100% !important;
+      height: 100% !important;
+      border-radius: 12px !important;
+    }
+  }
+
+  /* Upload button styling */
+  .upload-button-primary {
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--chart-3)) 100%);
+    border: 2px solid hsl(var(--primary));
+    box-shadow: 0 4px 15px hsla(var(--primary), 0.3);
+    transition: all 0.3s ease;
+  }
+
+  .upload-button-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px hsla(var(--primary), 0.4);
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--chart-2)) 100%);
+  }
+
+  .upload-button-primary:active {
+    transform: translateY(0);
+  }
+
+  .brief-card {
+    background: linear-gradient(135deg, hsl(var(--card)) 0%, hsl(var(--accent)) 100%);
+    border: 1px solid hsl(var(--border));
+    box-shadow: 0 3px 15px hsla(var(--primary), 0.12);
+    transition: all 0.3s ease-in-out;
+  }
+
+  .brief-card:hover {
+    box-shadow: 0 6px 25px hsla(var(--primary), 0.2);
+    transform: translateY(-2px);
+    border-color: hsl(var(--primary));
+  }
+
+  .stats-card {
+    background: linear-gradient(135deg, hsl(var(--card)) 0%, hsl(var(--secondary)) 100%);
+    border: 1px solid hsl(var(--border));
+    box-shadow: 0 2px 12px hsla(var(--primary), 0.1);
+    transition: all 0.2s ease-in-out;
+  }
+
+  .stats-card:hover {
+    box-shadow: 0 4px 20px hsla(var(--primary), 0.15);
+    transform: translateY(-1px);
+  }
+
+  .warm-gradient {
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--chart-3)) 50%, hsl(var(--chart-2)) 100%);
+  }
+
+  .print-friendly {
+    @media print {
+      background: white !important;
+      color: black !important;
+      box-shadow: none !important;
+    }
+  }
+}

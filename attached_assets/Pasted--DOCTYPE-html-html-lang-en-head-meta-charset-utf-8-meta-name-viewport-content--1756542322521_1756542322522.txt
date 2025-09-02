@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>American Injustice · Evidence Timeline</title>
+  <meta name="description" content="Documented chronology of events, filings, and public records for Matthew O. Reardon (We The People News)." />
+  <style>
+    :root {
+      --bg: #0b0f14;       /* deep slate */
+      --panel: #0f1620;    /* card background */
+      --ink: #e6edf3;      /* primary text */
+      --muted: #9fb3c8;    /* secondary text */
+      --accent: #4cc2ff;   /* cyan accent */
+      --accent-2: #a78bfa; /* violet accent */
+      --ok: #10b981;       /* green */
+      --warn: #f59e0b;     /* amber */
+      --bad: #ef4444;      /* red */
+      --ring: rgba(76,194,255,.35);
+      --radius: 16px;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin:0; height:100%; background:linear-gradient(180deg, #0a0e13 0%, #0b1016 100%); color:var(--ink); font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji"; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { max-width: 1200px; margin-inline: auto; padding: 20px; }
+    header.hero { position: relative; padding: 56px 0 36px; border-bottom: 1px solid rgba(255,255,255,.08); }
+    .badge { display:inline-block; padding:6px 10px; border:1px solid rgba(255,255,255,.12); border-radius:999px; color:var(--muted); font-size:12px; letter-spacing:.3px; }
+    .title { font-weight: 800; font-size: clamp(28px, 6vw, 54px); line-height:1.05; margin:16px 0 10px; }
+    .subtitle { color:var(--muted); max-width: 900px; }
+
+    .grid { display:grid; gap:24px; }
+    @media (min-width: 992px){ .grid-3 { grid-template-columns: 2fr 1fr; } }
+
+    .card { background: linear-gradient(180deg, #101826, #0e1520); border:1px solid rgba(255,255,255,.08); border-radius: var(--radius); box-shadow: var(--shadow); }
+    .card h3 { margin:0 0 10px; font-size: 18px; letter-spacing:.2px; }
+    .card .body { padding:22px; }
+
+    /* Timeline */
+    .timeline { position: relative; padding: 10px 0 10px 18px; }
+    .timeline::before { content:""; position:absolute; left: 10px; top:0; bottom:0; width:2px; background: linear-gradient(180deg, rgba(76,194,255,.35), rgba(167,139,250,.35)); }
+    .t-item { position: relative; margin: 0 0 18px 0; padding-left: 18px; }
+    .t-item::before { content:""; position:absolute; left:-3px; top:6px; width:10px; height:10px; border-radius:999px; background:var(--accent); box-shadow:0 0 0 4px var(--ring); }
+    .t-date { font-weight:700; letter-spacing:.2px; color:#d7e3ef; }
+    .t-title { font-weight:700; margin: 2px 0 2px; }
+    .t-tags { margin-top:6px; display:flex; gap:8px; flex-wrap:wrap; }
+    .tag { padding:2px 8px; font-size:12px; border:1px solid rgba(255,255,255,.14); border-radius:999px; color:var(--muted); }
+
+    /* Evidence */
+    .evidence-grid { display:grid; gap:14px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+    .ev { display:block; background:var(--panel); border:1px solid rgba(255,255,255,.08); border-radius:12px; overflow:hidden; box-shadow: var(--shadow); }
+    .ev img { width:100%; height:170px; object-fit:cover; display:block; }
+    .ev .meta { padding:12px; color:var(--muted); font-size:14px; }
+    .ev .meta b { color:var(--ink); }
+
+    /* Docs table */
+    table.docs { width:100%; border-collapse: collapse; }
+    .docs th, .docs td { padding:12px 10px; border-bottom: 1px solid rgba(255,255,255,.08); vertical-align: top; }
+    .docs th { text-align:left; color:#cfe2f2; font-weight:700; }
+
+    /* Footer */
+    footer { margin: 40px 0 60px; color: var(--muted); }
+    .muted { color: var(--muted); }
+    .pill { padding: 4px 8px; border: 1px solid rgba(255,255,255,.12); border-radius: 999px; font-size:12px; }
+    .notice { background: rgba(16, 185, 129, .08); border: 1px solid rgba(16, 185, 129, .35); color:#b9f3d4; padding:10px 12px; border-radius:10px; }
+    .cta { display:inline-flex; align-items:center; gap:10px; background: linear-gradient(135deg, var(--accent), var(--accent-2)); color:#08101a; font-weight:800; padding:14px 18px; border-radius:12px; border:0; box-shadow: 0 10px 22px rgba(76,194,255,.25); cursor:pointer; }
+    .cta:hover { opacity:.95; }
+    .toolbar { display:flex; gap:10px; flex-wrap:wrap; margin-top:18px; }
+    input.search { background: #0c121b; border:1px solid rgba(255,255,255,.1); border-radius: 10px; padding:10px 12px; color:var(--ink); width:min(480px, 100%); }
+    .sr { display:none; }
+  </style>
+</head>
+<body>
+  <header class="hero wrap">
+    <span class="badge">ARCHIVE · PUBLIC RECORD + FIRST‑PERSON LOG</span>
+    <h1 class="title">American Injustice — Evidence Timeline</h1>
+    <p class="subtitle">A living chronology of events, records, and filings across Mississippi, Texas, Utah, and Louisiana. Built for verification. Every entry cites a source or marks itself as first‑person testimony pending corroboration.</p>
+    <div class="toolbar">
+      <input id="q" class="search" type="search" placeholder="Search dates, places, people, statutes (e.g., 41 C.F.R. § 102‑74.390)" />
+      <button class="cta" onclick="exportJSON()">Export JSON</button>
+      <span class="pill">Last updated: <span id="updated"></span></span>
+    </div>
+  </header>
+
+  <main class="wrap grid grid-3" aria-live="polite">
+    <!-- TIMELINE COLUMN -->
+    <section class="card" aria-labelledby="h-timeline">
+      <div class="body">
+        <h3 id="h-timeline">Timeline</h3>
+        <div id="timeline" class="timeline" role="list"></div>
+        <div id="empty" class="notice sr">No timeline items match your search.</div>
+      </div>
+    </section>
+
+    <!-- SIDEBAR COLUMN -->
+    <aside class="grid" style="gap:24px">
+      <section class="card" aria-labelledby="h-evidence">
+        <div class="body">
+          <h3 id="h-evidence">Evidence snapshots</h3>
+          <div class="evidence-grid" id="evidence"></div>
+          <p class="muted" style="margin-top:8px">Add full‑resolution files and body‑cam records to your CMS; update URLs below.</p>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="h-docs">
+        <div class="body">
+          <h3 id="h-docs">Documents & filings</h3>
+          <table class="docs" id="docs">
+            <thead><tr><th>Date</th><th>Title</th><th>Jurisdiction</th><th>Link</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="h-about">
+        <div class="body">
+          <h3 id="h-about">About this archive</h3>
+          <p class="muted">This is a portable, static website. Drop <code>index.html</code> on Netlify, GitHub Pages, or any host. All data lives below as a JSON block you can edit without a build step.</p>
+        </div>
+      </section>
+    </aside>
+  </main>
+
+  <footer class="wrap">
+    <p class="muted">© <span id="year"></span> We The People News · Built for verification and public accountability.</p>
+  </footer>
+
+  <script>
+    // ——— DATA (Edit these arrays; no build step required) ———
+    const TIMELINE = [
+      {
+        date: "2021-12-06",
+        title: "Case reassigned; courthouse confrontation; civil commitment initiated",
+        where: "Oxford/Lafayette County, MS",
+        tags: ["Mississippi", "Commitment", "Judiciary"],
+        source: { type: "first-person", url: "", note: "Per sworn account in manuscript; corroborating records requested." }
+      },
+      {
+        date: "2021-12-07",
+        title: "Taken into custody on civil writ; committed to N. Mississippi State Hospital",
+        where: "Tupelo, MS",
+        tags: ["Mississippi", "Commitment"],
+        source: { type: "first-person", url: "" }
+      },
+      {
+        date: "2022-10-28",
+        title: "Visited FBI office to lodge misconduct affidavit",
+        where: "(per account)",
+        tags: ["FBI", "Affidavit"],
+        source: { type: "first-person" }
+      },
+      {
+        date: "2022-11-01",
+        title: "Traffic stop & arrest; probation revocation proceedings follow",
+        where: "Lafayette County, MS",
+        tags: ["Mississippi", "Revocation"],
+        source: { type: "first-person" }
+      },
+      {
+        date: "2023-08-11",
+        title: "Galveston arrest; forced blood draw at UTMB; charges later dismissed",
+        where: "Galveston, TX",
+        tags: ["Texas", "DWI case", "UTMB"],
+        source: { type: "first-person" }
+      },
+      {
+        date: "2025-06-23",
+        title: "First courthouse recording incident (lobby) — confrontation begins",
+        where: "U.S. District Court, Lafayette, LA",
+        tags: ["Louisiana", "First Amendment", "Courthouse"],
+        cite: "6-23 and 26 transcript excerpt",
+        source: { type: "record", url: "#doc-usms-foia", note: "Referenced in FOIA + transcript" }
+      },
+      {
+        date: "2025-06-26",
+        title: "Follow-up courthouse incident; USMS circulates alerts internally (per FOIA scope)",
+        where: "U.S. District Court, Lafayette, LA",
+        tags: ["Louisiana", "USMS", "BOLO"],
+        source: { type: "record", url: "#doc-usms-foia", note: "FOIA request defines both dates." }
+      },
+      {
+        date: "2025-06-27",
+        title: "FOIA filed to USMS seeking all comms/BOLOs referencing incidents & multi-state contacts",
+        where: "USMS OGC, Washington DC",
+        tags: ["FOIA", "USMS", "Records"],
+        source: { type: "record", url: "#doc-usms-foia" }
+      },
+      {
+        date: "2025-08-22",
+        title: "USMS FOIA response: 14 responsive pages; partial withholdings under (b)(6), (b)(7)(C), (b)(7)(F)",
+        where: "USMS OGC",
+        tags: ["FOIA", "USMS", "Exemptions"],
+        source: { type: "record", url: "#doc-usms-foia-response" }
+      },
+      {
+        date: "2025-08-25",
+        title: "Bill of Information issued for 41 C.F.R. § 102‑74.390 (loitering/disorderly on federal property)",
+        where: "W.D. La., Lafayette Division",
+        tags: ["Criminal", "41 CFR 102-74.390"],
+        source: { type: "image", url: "#ev-bill-info", note: "Bill of Information image on file." }
+      },
+      {
+        date: "2025-08-26",
+        title: "Vehicle towed while being released from custody; paid $332.48 to retrieve",
+        where: "Lafayette, LA",
+        tags: ["Retaliation", "Tow/Impound"],
+        source: { type: "image", url: "#ev-impound", note: "R&R Towing invoice image on file." }
+      }
+    ];
+
+    const DOCS = [
+      { id: "doc-usms-foia", date: "2025-06-27", title: "FOIA to U.S. Marshals Service (USMS)", where: "USMS OGC", href: "", note: "Scope includes 6/23 and 6/26 incidents; multi-state comms." },
+      { id: "doc-usms-foia-response", date: "2025-08-22", title: "USMS FOIA Response — 14 pages located; partial redactions", where: "USMS OGC", href: "", note: "Exemptions (b)(6), (b)(7)(C), (b)(7)(F)." },
+      { id: "doc-podcast", date: "2025-07", title: "Recorded commentary reading USMS internal alert verbiage (transcript)", where: "WTPNews", href: "", note: "References 'First Amendment auditor' email." }
+    ];
+
+    const EVIDENCE = [
+      { id: "ev-bill-info", title: "Bill of Information (41 C.F.R. § 102‑74.390)", caption: "W.D. La. — Count I: Loitering/Disorderly/Other Conduct on Federal Property.", src: "", href: "" },
+      { id: "ev-impound", title: "R&R Towing Invoice — $332.48 (8/26/2025)", caption: "Tow initiated as 'private property' while vehicle lawfully parked on public street (per account).", src: "", href: "" }
+    ];
+
+    // ——— RENDER ———
+    const $T = document.getElementById('timeline');
+    const $E = document.getElementById('evidence');
+    const $D = document.querySelector('#docs tbody');
+    const $Q = document.getElementById('q');
+
+    function renderTimeline(list){
+      $T.innerHTML = '';
+      list.forEach(item => {
+        const el = document.createElement('article');
+        el.className = 't-item';
+        el.setAttribute('role','listitem');
+        el.innerHTML = `
+          <div class="t-date">${new Date(item.date).toLocaleDateString()}</div>
+          <div class="t-title">${item.title}</div>
+          <div class="muted">${item.where || ''}</div>
+          ${item.cite ? `<div class="muted" style="margin-top:6px">Source note: ${item.cite}</div>`: ''}
+          <div class="t-tags">${(item.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+        `;
+        $T.appendChild(el);
+      });
+      document.getElementById('empty').className = list.length ? 'notice sr' : 'notice';
+    }
+
+    function renderEvidence(){
+      $E.innerHTML = EVIDENCE.map(ev => `
+        <a class="ev" id="${ev.id}" href="${ev.href||'#'}" target="_blank" rel="noopener">
+          <img alt="${ev.title}" src="${ev.src || 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'170\'><rect width=\'100%\' height=\'100%\' fill=\'#0c121b\'/><text x=\'20\' y=\'95\' fill=\'%23a0aec0\' font-size=\'16\'>Add preview image</text></svg>')}" />
+          <div class="meta"><b>${ev.title}</b><div>${ev.caption||''}</div></div>
+        </a>
+      `).join('');
+    }
+
+    function renderDocs(){
+      $D.innerHTML = DOCS.map(d => `
+        <tr id="${d.id}"><td>${new Date(d.date).toLocaleDateString()}</td><td>${d.title}<div class="muted">${d.note||''}</div></td><td>${d.where||''}</td><td>${d.href?`<a href="${d.href}" target="_blank" rel="noopener">open</a>`:'<span class="muted">(add link)</span>'}</td></tr>
+      `).join('');
+    }
+
+    function search(){
+      const q = ($Q.value||'').toLowerCase();
+      if(!q){ renderTimeline(TIMELINE); return; }
+      const f = TIMELINE.filter(x => (x.title+x.where+(x.tags||[]).join(' ')).toLowerCase().includes(q) || x.date.includes(q));
+      renderTimeline(f);
+    }
+
+    function exportJSON(){
+      const blob = new Blob([JSON.stringify({ timeline: TIMELINE, documents: DOCS, evidence: EVIDENCE }, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'american-injustice-timeline.json'; a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    // init
+    renderTimeline(TIMELINE);
+    renderEvidence();
+    renderDocs();
+    document.getElementById('year').textContent = new Date().getFullYear();
+    document.getElementById('updated').textContent = new Date().toLocaleString();
+    $Q.addEventListener('input', search);
+  </script>
+</body>
+</html>
