@@ -1,0 +1,29 @@
+[build]
+  command = "npm run build"
+  publish = "dist/public"
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+  included_files = ["dist/public/**"]
+
+# Redirect API routes to functions
+[[redirects]]
+  from = "/api/legal-analytics/*"
+  to = "/.netlify/functions/legal-analytics/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/api/subscription/*"
+  to = "/.netlify/functions/subscription/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/api/coupons/*"
+  to = "/.netlify/functions/coupons/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/api/health"
+  to = "/.netlify/functions/health"
+  status = 200
