@@ -1,29 +1,25 @@
 [build]
   command = "npm run build"
-  publish = "dist/public"
+  publish = "dist"
   functions = "netlify/functions"
 
 [functions]
   node_bundler = "esbuild"
-  included_files = ["dist/public/**"]
 
-# Redirect API routes to functions
+# Identity-protected APIs
 [[redirects]]
-  from = "/api/legal-analytics/*"
-  to = "/.netlify/functions/legal-analytics/:splat"
+  from = "/api/ai"
+  to = "/.netlify/functions/ai"
   status = 200
 
 [[redirects]]
-  from = "/api/subscription/*"
-  to = "/.netlify/functions/subscription/:splat"
+  from = "/api/upload"
+  to = "/.netlify/functions/upload"
   status = 200
 
 [[redirects]]
-  from = "/api/coupons/*"
-  to = "/.netlify/functions/coupons/:splat"
+  from = "/api/blob/*"
+  to = "/.netlify/functions/blob/:splat"
   status = 200
 
-[[redirects]]
-  from = "/api/health"
-  to = "/.netlify/functions/health"
-  status = 200
+# (keep your existing /api/legal-analytics/*, /api/subscription/*, etc.)

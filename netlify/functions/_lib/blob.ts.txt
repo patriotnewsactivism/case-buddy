@@ -1,0 +1,28 @@
+import type { Handler } from "@netlify/functions";
+import { requireUser } from "./_lib/auth";
+import { getStore } from "@netlify/blobs";
+
+export const handler: Handler = async (event, context) => {
+  try {
+    const user = requireUser(context);
+    const key = decodeURIComponent((event.path || "").split("/api/blob/")[1] || "");
+    if (!key || !key.startsWith(`u/${user.sub}/`)) {
+      return { statusCode: 403, body: "Forbidden" };
+    }
+    const store = getStore({ name: "casebuddy-uploads", consistency: "strong" });
+    const blob = await store.get(key, { type: "arrayBuffer" });
+    if (!blob) return { statusCode: 404, body: "Not found" };
+
+    const buffer = Buffer.from(blob);
+    // Basic type inference from metadata would be better; default binary
+    return {
+      statusCode: 200,
+      headers: { "Content-Type": "application/octet-stream" },
+      body: buffer.toString("base64"),
+      isBase64Encoded: true,
+    };
+  } catch (err: any) {
+    const status = err?.statusCode || 500;
+    return { statusCode: status, body: err?.message || "Blob read error" };
+  }
+};

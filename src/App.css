@@ -1,0 +1,178 @@
+/*
+ * Styling for the CaseBuddy React app.
+ *
+ * Most rules are ported directly from the original static version to
+ * maintain a consistent look and feel. Flexbox is used to position the
+ * sidebar and main content area. Colours and spacing are chosen to be
+ * calming and professional.
+ */
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f5f7fa;
+  color: #222;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header styling */
+header,
+.header {
+  background: #0a53be;
+  color: #fff;
+  padding: 1rem 2rem;
+  text-align: left;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+header h1,
+.header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+header .subtitle,
+.header .subtitle {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.container {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+aside {
+  width: 28%;
+  min-width: 220px;
+  background: #ffffff;
+  border-right: 1px solid #e1e4e8;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+main {
+  flex: 1;
+  padding: 1rem 2rem;
+  overflow-y: auto;
+}
+
+h2 {
+  margin-top: 0;
+}
+
+ul.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul.list li {
+  padding: 0.5rem;
+  margin-bottom: 0.3rem;
+  border: 1px solid #e1e4e8;
+  border-radius: 4px;
+  cursor: pointer;
+  background: #fafbfd;
+}
+
+ul.list li:hover {
+  background: #f0f4fa;
+}
+
+ul.list li.active {
+  background: #dce6f9;
+  border-color: #b3cef6;
+}
+
+.form {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.form.inline {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.form input[type="text"],
+.form input[type="date"],
+.form textarea {
+  padding: 0.4rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+  flex: 1;
+}
+
+.form input[type="file"] {
+  margin-bottom: 0.5rem;
+}
+
+.form button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  background: #0a53be;
+  color: #fff;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.form button:hover {
+  background: #093a82;
+}
+
+section {
+  margin-bottom: 1.5rem;
+}
+
+#no-selection {
+  color: #777;
+  font-style: italic;
+}
+
+.hidden {
+  display: none;
+}
+
+footer {
+  background: #f3f4f6;
+  text-align: center;
+  padding: 0.5rem;
+  font-size: 0.8rem;
+  border-top: 1px solid #e1e4e8;
+}
+
+/* Search results list should float above other elements when present */
+.list.search {
+  background: #fff;
+  border: 1px solid #e1e4e8;
+  max-height: 200px;
+  overflow-y: auto;
+  margin-top: 0.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+  aside {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #e1e4e8;
+  }
+  main {
+    padding: 1rem;
+  }
+}
