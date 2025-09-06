@@ -1,25 +1,7 @@
 [build]
   command = "npm run build"
-  publish = "dist"
-  functions = "netlify/functions"
+  publish = "build"
 
 [functions]
+  directory = "netlify/functions"
   node_bundler = "esbuild"
-
-# Identity-protected APIs
-[[redirects]]
-  from = "/api/ai"
-  to = "/.netlify/functions/ai"
-  status = 200
-
-[[redirects]]
-  from = "/api/upload"
-  to = "/.netlify/functions/upload"
-  status = 200
-
-[[redirects]]
-  from = "/api/blob/*"
-  to = "/.netlify/functions/blob/:splat"
-  status = 200
-
-# (keep your existing /api/legal-analytics/*, /api/subscription/*, etc.)
