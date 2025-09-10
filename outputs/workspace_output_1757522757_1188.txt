@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CaseBuddy – Case Intelligence Portal</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>CaseBuddy – Case Intelligence Portal</h1>
+    <p class="subtitle">Organise, analyse and manage your legal cases with ease.</p>
+  </header>
+  <div class="container">
+    <aside id="cases-section">
+      <h2>Cases</h2>
+      <ul id="cases-list" class="list"></ul>
+      <h3>Add New Case</h3>
+      <form id="new-case-form" class="form">
+        <input type="text" id="case-title" placeholder="Case title" required />
+        <textarea id="case-description" placeholder="Case description"></textarea>
+        <button type="submit">Add Case</button>
+      </form>
+      <h3>Search</h3>
+      <input type="text" id="search-input" placeholder="Search cases, documents, evidence…" />
+      <ul id="search-results" class="list search"></ul>
+    </aside>
+    <main id="case-details">
+      <h2>Case Details</h2>
+      <div id="no-selection">Select a case to view its details.</div>
+      <div id="case-info" class="hidden">
+        <h3 id="case-title-display"></h3>
+        <p id="case-description-display"></p>
+        <section>
+          <h4>Documents</h4>
+          <ul id="documents-list" class="list"></ul>
+          <form id="add-document-form" class="form inline">
+            <input type="text" id="document-name" placeholder="Document name" required />
+            <input type="file" id="document-file" accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png" />
+            <button type="submit">Add Document</button>
+          </form>
+        </section>
+        <section>
+          <h4>Evidence</h4>
+          <ul id="evidence-list" class="list"></ul>
+          <form id="add-evidence-form" class="form inline">
+            <input type="text" id="evidence-name" placeholder="Evidence name" required />
+            <input type="file" id="evidence-file" accept="image/*,video/*" />
+            <button type="submit">Add Evidence</button>
+          </form>
+        </section>
+        <section>
+          <h4>Timeline</h4>
+          <ul id="timeline-list" class="list"></ul>
+          <form id="add-timeline-form" class="form inline">
+            <!-- Use a date input but do not mark as required to avoid
+                 validation issues on browsers that may not accept manual
+                 typing of yyyy-mm-dd values. Users can still supply a date
+                 and it will be used as-is. -->
+            <input type="date" id="timeline-date" />
+            <input type="text" id="timeline-title" placeholder="Event title" required />
+            <input type="text" id="timeline-description" placeholder="Event description" />
+            <button type="submit">Add Event</button>
+          </form>
+        </section>
+        <section>
+          <h4>FOIA Requests</h4>
+          <ul id="foia-list" class="list"></ul>
+          <form id="add-foia-form" class="form">
+            <input type="text" id="foia-subject" placeholder="Request subject" required />
+            <textarea id="foia-description" placeholder="Request description"></textarea>
+            <button type="submit">Add FOIA Request</button>
+          </form>
+        </section>
+      </div>
+    </main>
+  </div>
+  <footer>
+    <p>&copy; 2025 CaseBuddy – All rights reserved.</p>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
