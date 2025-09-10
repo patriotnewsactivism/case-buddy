@@ -1,28 +1,24 @@
+
 import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { isAuthed, signOut } from '../services/auth';
 
 const Header = () => {
+  const navigate = useNavigate();
+  const out = () => { signOut(); navigate('/login'); };
   return (
-    <header className="bg-blue-800 text-white p-4 shadow-md">
-      <div className="container mx-auto flex justify-between items-center">
-        <h1 className="text-2xl font-bold">CaseBuddy</h1>
-        <nav>
-          <ul className="flex space-x-4">
-            <li><a href="#" className="hover:text-blue-200 transition-colors">Dashboard</a></li>
-            <li><a href="#" className="hover:text-blue-200 transition-colors">Cases</a></li>
-            <li><a href="#" className="hover:text-blue-200 transition-colors">Documents</a></li>
-            <li><a href="#" className="hover:text-blue-200 transition-colors">Interview Prep</a></li>
-            <li><a href="#" className="hover:text-blue-200 transition-colors">Analytics</a></li>
-          </ul>
-        </nav>
-        <div className="flex items-center space-x-4">
-          <button className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-md transition-colors">
-            Sign In
-          </button>
-          <button className="bg-orange-500 hover:bg-orange-600 px-4 py-2 rounded-md transition-colors">
-            Free Trial
-          </button>
-        </div>
-      </div>
+    <header className="bg-white border-b border-gray-200 p-4 flex items-center justify-between">
+      <div className="text-xl font-bold text-gray-800">CaseBuddy</div>
+      <nav className="space-x-4">
+        <Link to="/" className="text-gray-700 hover:text-black">Dashboard</Link>
+        <Link to="/cases" className="text-gray-700 hover:text-black">Cases</Link>
+        <Link to="/analyzer" className="text-gray-700 hover:text-black">Analyzer</Link>
+        {isAuthed() ? (
+          <button onClick={out} className="text-gray-700 hover:text-black">Sign out</button>
+        ) : (
+          <Link to="/login" className="text-gray-700 hover:text-black">Sign in</Link>
+        )}
+      </nav>
     </header>
   );
 };
