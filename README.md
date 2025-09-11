@@ -1,33 +1,65 @@
-# CaseBuddy – Upgraded Case Intelligence Portal
+# CaseBuddy - Redesigned Version
 
-CaseBuddy is a lightweight legal case management portal designed to help you organise, analyse and manage legal cases without any server‑side dependencies.  It was rebuilt from the original Replit project as a modern static web application that runs entirely in the browser.
+This is the redesigned version of CaseBuddy with enhanced features including:
 
-## Features
+- Modern, interactive UI with animations and micro-interactions
+- AI-powered case analysis tools
+- Interactive case interview preparation system
+- Secure authentication with 2FA support
+- 14-day free trial implementation
 
-* **Case management** – create unlimited cases with titles and descriptions.  All cases are listed in a sidebar for quick access.
-* **Document repository** – attach documents to a case with an optional file upload.  Files are stored in the browser using base64 encoding.
-* **Evidence gallery** – add photographs or videos as evidence for each case.  Evidence is also stored locally in the browser.
-* **Timeline** – record important events for a case.  If no date is provided, today’s date is used automatically.
-* **FOIA requests** – log freedom‑of‑information requests with subject lines and optional descriptions.
-* **Search** – quickly search across case titles, documents, evidence, timeline events and FOIA requests.  Selecting a search result opens the associated case.
-* **Persistence** – all information is stored in your browser’s localStorage.  There is no backend server required.  Clearing your browser storage will remove all data.
+## Features Implemented
 
-## Running the app
+### UI/UX Enhancements
+- Responsive design using React and TailwindCSS
+- Interactive elements with hover effects and animations
+- Professional color scheme and typography
+- Modern component architecture
 
-1. Clone or download this repository.
-2. Open `index.html` in your web browser.  No build steps are required.
-3. Use the interface to add cases, documents, evidence and more.  All data is stored locally on your device.
+### AI & Automation
+- Document analysis with key fact extraction
+- Timeline event suggestions based on document content
+- Case interview simulator with AI-powered feedback
+- Voice recognition for verbal practice sessions
 
-### Serving locally with `http-server`
+### Authentication & Security
+- Secure login system with email/password
+- OAuth integration (Google, LinkedIn)
+- Two-factor authentication support
+- Session management
 
-If you’d like to serve the app via a local web server, you can use the [`http-server`](https://www.npmjs.com/package/http-server) package (included in this environment):
+### Free Trial System
+- 14-day complimentary free trial
+- Trial expiration notifications with countdown timer
+- Easy upgrade path to paid subscription
 
-```sh
-npx http-server . -p 8000
-```
+## Technical Stack
+- React.js for frontend components
+- TailwindCSS for styling
+- Framer Motion for animations
+- React Hook Form for form validation
+- Netlify Functions for backend services
+- localStorage for client-side data persistence (in this implementation)
 
-Then navigate to `http://localhost:8000` in your browser.
+## Deployment
+This application is configured for deployment to Netlify. The `netlify.toml` file contains the necessary build settings and security headers.
 
-## Notes
+To deploy:
+1. Connect your GitHub repository to Netlify
+2. Set the build command to `npm run build`
+3. Set the publish directory to `build`
+4. Netlify will automatically deploy the functions from the `functions` directory
 
-This upgraded version does not replicate every advanced feature of the original Replit project (such as authentication, analytics or integration with external services), but it provides a solid foundation for organising case information.  The application is completely static and can be deployed to any static hosting provider such as GitHub Pages or Netlify.
+## Local Development
+To run locally:
+1. Install dependencies: `npm install`
+2. Start development server: `npm start`
+3. Open browser to `http://localhost:3000`
+
+## Security Headers
+The application implements security headers to protect against common web vulnerabilities:
+- X-Frame-Options: DENY
+- X-XSS-Protection: 1; mode=block
+- X-Content-Type-Options: nosniff
+- Referrer-Policy: no-referrer
+- Permissions-Policy: Restricted permissions for enhanced security
