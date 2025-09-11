@@ -1,0 +1,4 @@
+﻿[submodule "case-buddy"]
+    path = case-buddy
+    url = https://github.com/<OWNER>/<REPO>.git
+    branch = main
