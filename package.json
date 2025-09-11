@@ -3,12 +3,21 @@
   "private": true,
   "version": "0.1.0",
   "dependencies": {
+    "@supabase/supabase-js": "^2.38.4",
+    "formidable": "^2.1.2",
     "framer-motion": "^10.12.16",
-    "lucide-react": "^0.544.0",
+    "lucide-react": "^0.263.1",
+    "mammoth": "^1.6.0",
+    "openai": "^4.20.1",
+    "pdf-parse": "^1.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.45.1",
-    "react-router-dom": "^6.24.0"
+    "react-router-dom": "^6.24.0",
+    "supabase": "^2.38.4",
+    "tesseract.js": "^5.0.2",
+    "uuid": "^9.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -35,6 +44,9 @@
     ]
   },
   "devDependencies": {
+    "@netlify/functions": "^2.4.0",
+    "@types/formidable": "^2.0.6",
+    "@types/uuid": "^9.0.7",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.24",
     "react-scripts": "^5.0.1",
