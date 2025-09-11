@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   Search,
   Plus,
@@ -14,21 +14,80 @@ import {
   Download,
   Upload,
   Clock,
+  AlertCircle,
+  CheckCircle,
   Target,
   TrendingUp,
+  Shield,
   Scale,
+  Gavel,
   BookOpen,
+  MessageSquare,
+  Camera,
+  Mic,
   Video,
+  Map,
   BarChart3,
+  PieChart,
   Activity,
   Zap,
+  Star,
+  Flag,
+  Archive,
   Edit3,
+  Trash2,
+  Share,
+  Copy,
+  Link,
+  Mail,
+  Phone,
+  MapPin,
   DollarSign,
+  Timer,
   Briefcase,
   Award,
+  Globe,
+  Lock,
+  Unlock,
   Database,
+  Cloud,
+  Smartphone,
+  Monitor,
+  Headphones,
+  Printer,
+  Wifi,
+  RefreshCw,
+  ChevronDown,
+  ChevronRight,
+  X,
   Menu,
-  Home
+  Home,
+  Folder,
+  Tag,
+  Hash,
+  AtSign,
+  Paperclip,
+  Send,
+  Save,
+  Power,
+  LogOut,
+  UserPlus,
+  Key,
+  ShieldCheck,
+  AlertTriangle,
+  Info,
+  HelpCircle,
+  ExternalLink,
+  Loader2,
+  PlayCircle,
+  StopCircle,
+  RotateCcw,
+  FileSearch,
+  Sparkles,
+  ArrowRight,
+  Check,
+  AlertOctagon,
+  TrendingDown
 } from 'lucide-react';
 
 const CaseBuddy = () => {
@@ -37,6 +96,17 @@ const CaseBuddy = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [notifications, setNotifications] = useState([]);
+
+  // AI Tool States
+  const [documentAnalysis, setDocumentAnalysis] = useState(null);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [uploadedFile, setUploadedFile] = useState(null);
+  const [caseAnalysisResult, setCaseAnalysisResult] = useState(null);
+  const [isAnalyzingCase, setIsAnalyzingCase] = useState(false);
+  const [draftedDocument, setDraftedDocument] = useState(null);
+  const [isDrafting, setIsDrafting] = useState(false);
+  const [timelineEvents, setTimelineEvents] = useState([]);
+  const [isCreatingTimeline, setIsCreatingTimeline] = useState(false);
 
   // Mock data for demonstration
   const cases = [
@@ -53,7 +123,8 @@ const CaseBuddy = () => {
       filingCount: 12,
       clientName: 'Marcus Johnson',
       damages: '$500,000',
-      jurisdiction: 'Federal District Court'
+      jurisdiction: 'Federal District Court',
+      description: 'Excessive force claim against Metro Police Department involving wrongful arrest and injuries during traffic stop.'
     },
     {
       id: 2,
@@ -68,7 +139,8 @@ const CaseBuddy = () => {
       filingCount: 8,
       clientName: 'Sarah Davis',
       damages: '$125,000',
-      jurisdiction: 'State Superior Court'
+      jurisdiction: 'State Superior Court',
+      description: 'Gender discrimination and retaliation claim against tech company for denial of promotion and hostile work environment.'
     },
     {
       id: 3,
@@ -83,7 +155,8 @@ const CaseBuddy = () => {
       filingCount: 3,
       clientName: 'Robert Williams',
       damages: '$75,000',
-      jurisdiction: 'Federal District Court'
+      jurisdiction: 'Federal District Court',
+      description: 'Housing discrimination based on race and family status in apartment rental denial.'
     }
   ];
 
@@ -96,7 +169,9 @@ const CaseBuddy = () => {
       size: '2.4 GB',
       tags: ['key evidence', 'video', 'incident'],
       status: 'analyzed',
-      aiConfidence: 92
+      aiConfidence: 92,
+      content:
+        'Body camera footage showing traffic stop and subsequent arrest. Video clearly shows excessive force used during arrest process.'
     },
     {
       id: 2,
@@ -106,7 +181,9 @@ const CaseBuddy = () => {
       size: '12 MB',
       tags: ['medical', 'damages', 'injuries'],
       status: 'reviewed',
-      aiConfidence: 88
+      aiConfidence: 88,
+      content:
+        'Emergency room records documenting injuries sustained during arrest including bruising, lacerations, and concussion.'
     },
     {
       id: 3,
@@ -116,7 +193,9 @@ const CaseBuddy = () => {
       size: '2 KB',
       tags: ['witness', 'statement', 'eyewitness'],
       status: 'pending',
-      aiConfidence: 0
+      aiConfidence: 0,
+      content:
+        'Witness statement from bystander who observed the entire incident and can testify to excessive force used by officers.'
     }
   ];
 
@@ -133,6 +212,392 @@ const CaseBuddy = () => {
     { task: 'Pretrial Conference', date: '2025-10-05', priority: 'high', daysLeft: 24 }
   ];
 
+  // Simulate AI Document Analysis
+  const analyzeDocument = useCallback(async (file) => {
+    setIsAnalyzing(true);
+    setUploadedFile(file);
+
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+
+    const mockAnalysis = {
+      extractedText: `IN THE UNITED STATES DISTRICT COURT
+FOR THE SOUTHERN DISTRICT OF NEW YORK
+
+MARCUS JOHNSON,
+                    Plaintiff,
+v.                                    Case No. 1:25-cv-12345
+
+METRO POLICE DEPARTMENT, et al.,
+                    Defendants.
+
+COMPLAINT FOR VIOLATION OF CIVIL RIGHTS
+
+Plaintiff Marcus Johnson, by and through his attorneys, brings this action under 42 U.S.C. § 1983 for violations of his constitutional rights, and alleges as follows:
+
+JURISDICTION AND VENUE
+
+1. This Court has subject matter jurisdiction over this action pursuant to 28 U.S.C. §§ 1331 and 1343, as this action arises under the Constitution and laws of the United States.
+
+2. Venue is proper in this district pursuant to 28 U.S.C. § 1391(b), as the events giving rise to this claim occurred within this judicial district.
+
+PARTIES
+
+3. Plaintiff Marcus Johnson is a resident of New York, New York.
+
+4. Defendant Metro Police Department is a municipal entity organized under the laws of New York.`,
+
+      confidence: 94,
+      documentType: 'Civil Rights Complaint',
+      keyFindings: [
+        'Federal civil rights claim under 42 U.S.C. § 1983',
+        'Subject matter jurisdiction properly alleged under 28 U.S.C. § 1331',
+        'Proper venue established under 28 U.S.C. § 1391(b)',
+        'Municipal defendant identified for potential Monell liability'
+      ],
+
+      legalAnalysis: `DOCUMENT ANALYSIS SUMMARY:
+
+This is a federal civil rights complaint filed under 42 U.S.C. § 1983 against a municipal police department. The document demonstrates proper federal court jurisdiction and venue.
+
+KEY LEGAL ELEMENTS IDENTIFIED:
+• Constitutional Claims: The complaint appears to allege violations of the Fourth and Fourteenth Amendments
+• Municipal Liability: The inclusion of the Metro Police Department as a defendant suggests potential Monell claims
+• Proper Jurisdiction: Federal question jurisdiction is properly established under § 1331
+• Venue: Properly established in the district where events occurred
+
+STRATEGIC CONSIDERATIONS:
+• Strong jurisdictional foundation for federal civil rights claim
+• Municipal defendant opens possibility for policy/custom claims
+• Document follows proper federal court formatting requirements
+• Consider adding individual officer defendants if not already included
+
+RECOMMENDED NEXT STEPS:
+• Review for completeness of factual allegations
+• Ensure all constitutional violations are properly pled
+• Verify all defendants are properly identified and served
+• Consider supplemental state law claims if applicable`,
+
+      extractedDates: ['2025-09-15', '2025-08-23', '2025-07-12'],
+      extractedParties: ['Marcus Johnson', 'Metro Police Department'],
+      citations: ['42 U.S.C. § 1983', '28 U.S.C. § 1331', '28 U.S.C. § 1391(b)'],
+
+      riskAssessment: {
+        strengthScore: 85,
+        risks: [
+          'Ensure proper service of municipal defendant',
+          'Verify statute of limitations compliance',
+          'Consider qualified immunity defenses for individual officers'
+        ],
+        opportunities: [
+          'Strong constitutional foundation',
+          'Municipal liability potential',
+          'Proper federal jurisdiction'
+        ]
+      }
+    };
+
+    setDocumentAnalysis(mockAnalysis);
+    setIsAnalyzing(false);
+  }, []);
+
+  // Simulate Case Analysis
+  const analyzeCaseFile = useCallback(async (caseId) => {
+    setIsAnalyzingCase(true);
+
+    await new Promise((resolve) => setTimeout(resolve, 4000));
+
+    const mockCaseAnalysis = {
+      caseId: caseId,
+      overallScore: 78,
+      winProbability: 82,
+
+      caseTheory: {
+        primary: 'Excessive Force under Fourth Amendment',
+        alternative: 'Due Process Violation under Fourteenth Amendment',
+        strengths: [
+          'Clear video evidence of excessive force',
+          'Medical documentation of injuries',
+          'Independent witness testimony',
+          'Municipal policy review potential'
+        ],
+        weaknesses: [
+          'Need more evidence of municipal policy/custom',
+          'Officer qualified immunity potential',
+          'Conflicting witness accounts possible'
+        ]
+      },
+
+      evidenceGaps: [
+        'Officer training records',
+        'Department use of force policies',
+        'Previous complaint history',
+        'Additional witness statements'
+      ],
+
+      recommendedActions: [
+        'Request officer personnel files through discovery',
+        'Subpoena department training materials',
+        'Interview additional witnesses',
+        'Engage use of force expert witness',
+        'File motion for preservation of evidence'
+      ],
+
+      damagesAnalysis: {
+        medical: '$45,000',
+        painSuffering: '$150,000',
+        lostWages: '$25,000',
+        punitive: '$280,000',
+        total: '$500,000'
+      },
+
+      timelineGaps: [
+        'Gap between arrest and medical treatment',
+        'Missing body camera footage from second officer',
+        'Unexplained delay in incident reporting'
+      ],
+
+      strategicInsights: `Based on comprehensive analysis of case materials, this excessive force claim shows strong potential for success. The video evidence combined with medical documentation creates a compelling narrative of constitutional violation.
+
+KEY STRENGTHS:
+• Video evidence clearly contradicts officer testimony
+• Medical records support severity of force used
+• Independent witness corroborates plaintiff's account
+• Municipal defendant creates potential for significant damages
+
+CRITICAL SUCCESS FACTORS:
+• Establish municipal policy or custom that led to violation
+• Counter qualified immunity arguments with clearly established law
+• Demonstrate damages exceed de minimis threshold
+• Maintain focus on constitutional rather than state law theories
+
+SETTLEMENT CONSIDERATIONS:
+• Strong case merits justify substantial settlement demand
+• Municipal defendant likely has insurance coverage
+• Early mediation could be cost-effective
+• Consider timing of settlement discussions around discovery milestones`
+    };
+
+    setCaseAnalysisResult(mockCaseAnalysis);
+    setIsAnalyzingCase(false);
+  }, []);
+
+  // Simulate Document Drafting
+  const draftDocument = useCallback(async (type, requirements) => {
+    setIsDrafting(true);
+
+    await new Promise((resolve) => setTimeout(resolve, 3500));
+
+    const mockDrafts = {
+      motion_summary_judgment: `IN THE UNITED STATES DISTRICT COURT
+FOR THE SOUTHERN DISTRICT OF NEW YORK
+
+MARCUS JOHNSON,
+                    Plaintiff,
+v.                                    Case No. 1:25-cv-12345
+
+METRO POLICE DEPARTMENT, et al.,
+                    Defendants.
+
+PLAINTIFF'S MOTION FOR SUMMARY JUDGMENT
+
+TO THE HONORABLE COURT:
+
+Plaintiff Marcus Johnson, by and through undersigned counsel, respectfully moves this Court for summary judgment on his claim for excessive force in violation of the Fourth Amendment to the United States Constitution pursuant to Federal Rule of Civil Procedure 56.
+
+STATEMENT OF UNDISPUTED MATERIAL FACTS
+
+1. On August 23, 2025, Plaintiff was lawfully driving his vehicle when stopped by Defendants' officers for an alleged traffic violation.
+
+2. Body camera footage, which Defendants do not dispute, shows the entire encounter between Plaintiff and the officers.
+
+3. The video evidence demonstrates that Plaintiff complied with all officer commands and posed no threat to officer safety.
+
+4. Despite Plaintiff's compliance, officers used significant force including tasering, striking, and forcibly restraining Plaintiff.
+
+5. Medical records establish that Plaintiff suffered substantial injuries requiring emergency medical treatment.
+
+LEGAL ARGUMENT
+
+I. STANDARD FOR SUMMARY JUDGMENT
+
+Summary judgment is appropriate when there is no genuine dispute as to any material fact and the movant is entitled to judgment as a matter of law. Fed. R. Civ. P. 56(a).
+
+II. THE UNDISPUTED FACTS ESTABLISH EXCESSIVE FORCE IN VIOLATION OF THE FOURTH AMENDMENT
+
+The Fourth Amendment prohibits the use of excessive force during an arrest. Graham v. Connor, 490 U.S. 386 (1989). The reasonableness inquiry requires careful attention to the facts and circumstances of each particular case, including: (1) the severity of the crime at issue; (2) whether the suspect poses an immediate threat to the safety of the officers or others; and (3) whether he is actively resisting arrest or attempting to evade arrest by flight. Id. at 396.
+
+Here, the undisputed video evidence establishes that all three Graham factors weigh in Plaintiff's favor...
+
+CONCLUSION
+
+For the foregoing reasons, Plaintiff respectfully requests that this Court grant his Motion for Summary Judgment and award appropriate relief.
+
+Respectfully submitted,
+
+[Attorney Name]
+Attorney for Plaintiff`,
+
+      discovery_requests: `PLAINTIFF'S FIRST SET OF INTERROGATORIES AND REQUESTS FOR PRODUCTION OF DOCUMENTS
+
+TO: METRO POLICE DEPARTMENT
+
+INTERROGATORIES
+
+INTERROGATORY NO. 1: Identify all policies, procedures, or training materials in effect on August 23, 2025, relating to the use of force, arrest procedures, or the use of tasers or other electronic control devices.
+
+INTERROGATORY NO. 2: Describe in detail all training received by Officers [Names] regarding use of force, de-escalation techniques, and constitutional requirements for arrests in the five years preceding August 23, 2025.
+
+INTERROGATORY NO. 3: Identify all complaints, investigations, or disciplinary actions involving Officers [Names] relating to excessive force, constitutional violations, or improper arrest procedures for the period January 1, 2020 to present.
+
+REQUESTS FOR PRODUCTION
+
+REQUEST NO. 1: All documents, including but not limited to policies, procedures, training materials, and general orders, relating to the use of force by police officers in effect from January 1, 2025 to present.
+
+REQUEST NO. 2: All body camera footage, dashcam footage, surveillance footage, or other recordings of the incident involving Plaintiff on August 23, 2025.
+
+REQUEST NO. 3: Complete personnel files for Officers [Names], including all training records, disciplinary actions, complaints, and performance evaluations.
+
+REQUEST NO. 4: All documents relating to any internal investigation of the August 23, 2025 incident involving Plaintiff.
+
+REQUEST NO. 5: All communications, including emails, text messages, radio transmissions, and reports, relating to the August 23, 2025 incident involving Plaintiff.`,
+
+      complaint_civil_rights: `IN THE UNITED STATES DISTRICT COURT
+FOR THE SOUTHERN DISTRICT OF NEW YORK
+
+[CLIENT NAME],
+                    Plaintiff,
+v.                                    Case No. ____________
+
+[DEFENDANT NAME], et al.,
+                    Defendants.
+
+COMPLAINT FOR VIOLATION OF CIVIL RIGHTS
+
+Plaintiff [CLIENT NAME], by and through undersigned counsel, brings this action under 42 U.S.C. § 1983 for violations of constitutional rights, and alleges as follows:
+
+JURISDICTION AND VENUE
+
+1. This Court has subject matter jurisdiction over this action pursuant to 28 U.S.C. §§ 1331 and 1343, as this action arises under the Constitution and laws of the United States.
+
+2. Venue is proper in this district pursuant to 28 U.S.C. § 1391(b).
+
+PARTIES
+
+3. Plaintiff is a resident of [STATE].
+
+4. At all times relevant herein, Defendants were acting under color of state law within the meaning of 42 U.S.C. § 1983.
+
+STATEMENT OF FACTS
+
+5. On [DATE], Plaintiff was [DESCRIBE INCIDENT].
+
+6. Defendants' actions violated Plaintiff's constitutional rights as described herein.
+
+CLAIMS FOR RELIEF
+
+COUNT I - EXCESSIVE FORCE IN VIOLATION OF THE FOURTH AMENDMENT
+(42 U.S.C. § 1983)
+
+7-10. [Incorporate previous allegations]
+
+11. Defendants' use of force was objectively unreasonable under the circumstances and violated Plaintiff's Fourth Amendment rights.
+
+PRAYER FOR RELIEF
+
+WHEREFORE, Plaintiff respectfully requests that this Court:
+A. Award compensatory damages;
+B. Award punitive damages;
+C. Award attorney's fees and costs;
+D. Grant such other relief as the Court deems just and proper.
+
+Respectfully submitted,
+
+[Attorney Name]
+Attorney for Plaintiff`
+    };
+
+    const draft = {
+      type: type,
+      content: mockDrafts[type] || mockDrafts['complaint_civil_rights'],
+      metadata: {
+        wordCount: mockDrafts[type]?.split(' ').length || 850,
+        generatedAt: new Date().toISOString(),
+        requirements: requirements
+      },
+      reviewChecklist: [
+        'Verify all factual allegations are supported by evidence',
+        'Confirm proper jurisdiction and venue allegations',
+        'Review legal standards and authority citations',
+        'Check procedural deadline compliance',
+        'Ensure all parties are properly identified'
+      ]
+    };
+
+    setDraftedDocument(draft);
+    setIsDrafting(false);
+  }, []);
+
+  // Simulate Timeline Creation
+  const createTimeline = useCallback(async () => {
+    setIsCreatingTimeline(true);
+
+    await new Promise((resolve) => setTimeout(resolve, 2500));
+
+    const mockTimeline = [
+      {
+        date: '2025-08-23',
+        time: '14:30',
+        event: 'Traffic Stop Initiated',
+        description: 'Officer Jones initiates traffic stop for alleged speeding violation',
+        source: 'Police Report',
+        significance: 'high'
+      },
+      {
+        date: '2025-08-23',
+        time: '14:32',
+        event: 'Plaintiff Exits Vehicle',
+        description: 'Plaintiff complies with officer request to exit vehicle',
+        source: 'Body Camera Footage',
+        significance: 'medium'
+      },
+      {
+        date: '2025-08-23',
+        time: '14:34',
+        event: 'Use of Force Begins',
+        description: 'Officers deploy taser and begin physical restraint',
+        source: 'Body Camera Footage, Witness Statement',
+        significance: 'critical'
+      },
+      {
+        date: '2025-08-23',
+        time: '14:37',
+        event: 'EMS Called',
+        description: 'Emergency medical services requested due to plaintiff injuries',
+        source: 'Radio Logs',
+        significance: 'high'
+      },
+      {
+        date: '2025-08-23',
+        time: '15:15',
+        event: 'Hospital Arrival',
+        description: 'Plaintiff transported to Metro General Hospital',
+        source: 'Medical Records',
+        significance: 'high'
+      },
+      {
+        date: '2025-08-24',
+        time: '09:00',
+        event: 'Internal Investigation Initiated',
+        description: 'Police department begins internal review of incident',
+        source: 'Internal Affairs Records',
+        significance: 'medium'
+      }
+    ];
+
+    setTimelineEvents(mockTimeline);
+    setIsCreatingTimeline(false);
+  }, []);
+
   // Navigation items
   const navigationItems = [
     { id: 'dashboard', label: 'Dashboard', icon: Home, color: 'text-blue-600' },
@@ -146,7 +611,9 @@ const CaseBuddy = () => {
   ];
 
   const Sidebar = () => (
-    <div className={`${sidebarOpen ? 'w-64' : 'w-16'} bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white transition-all duration-300 flex flex-col h-full border-r border-slate-700`}>
+    <div
+      className={`${sidebarOpen ? 'w-64' : 'w-16'} bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white transition-all duration-300 flex flex-col h-full border-r border-slate-700`}
+    >
       {/* Logo */}
       <div className="p-4 border-b border-slate-700">
         <div className="flex items-center">
@@ -177,9 +644,7 @@ const CaseBuddy = () => {
             }`}
           >
             <item.icon className={`w-5 h-5 ${activeView === item.id ? 'text-white' : item.color}`} />
-            {sidebarOpen && (
-              <span className="ml-3 font-medium">{item.label}</span>
-            )}
+            {sidebarOpen && <span className="ml-3 font-medium">{item.label}</span>}
           </button>
         ))}
       </nav>
@@ -295,23 +760,33 @@ const CaseBuddy = () => {
         <div className="lg:col-span-2 bg-white rounded-xl border border-gray-200 p-6">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-lg font-semibold text-gray-900">Recent Cases</h2>
-            <button className="text-blue-600 hover:text-blue-700 text-sm font-medium">View All</button>
+            <button
+              onClick={() => setActiveView('cases')}
+              className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+            >
+              View All
+            </button>
           </div>
 
           <div className="space-y-4">
             {cases.map((case_) => (
-              <div key={case_.id} className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition-colors cursor-pointer">
+              <div
+                key={case_.id}
+                className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition-colors cursor-pointer"
+              >
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center space-x-3 mb-2">
                       <h3 className="font-semibold text-gray-900">{case_.title}</h3>
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        case_.priority === 'high'
-                          ? 'bg-red-100 text-red-700'
-                          : case_.priority === 'medium'
-                          ? 'bg-yellow-100 text-yellow-700'
-                          : 'bg-green-100 text-green-700'
-                      }`}>
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs font-medium ${
+                          case_.priority === 'high'
+                            ? 'bg-red-100 text-red-700'
+                            : case_.priority === 'medium'
+                            ? 'bg-yellow-100 text-yellow-700'
+                            : 'bg-green-100 text-green-700'
+                        }`}
+                      >
                         {case_.priority}
                       </span>
                     </div>
@@ -364,14 +839,21 @@ const CaseBuddy = () => {
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Upcoming Deadlines</h3>
             <div className="space-y-3">
               {upcomingDeadlines.map((deadline, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div
+                  key={index}
+                  className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+                >
                   <div>
                     <p className="font-medium text-gray-900 text-sm">{deadline.task}</p>
                     <p className="text-xs text-gray-500">{deadline.date}</p>
                   </div>
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    deadline.daysLeft <= 5 ? 'bg-red-100 text-red-700' : 'bg-yellow-100 text-yellow-700'
-                  }`}>
+                  <span
+                    className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      deadline.daysLeft <= 5
+                        ? 'bg-red-100 text-red-700'
+                        : 'bg-yellow-100 text-yellow-700'
+                    }`}
+                  >
                     {deadline.daysLeft}d
                   </span>
                 </div>
@@ -385,15 +867,17 @@ const CaseBuddy = () => {
             <div className="space-y-3">
               {recentActivity.map((activity, index) => (
                 <div key={index} className="flex items-start space-x-3">
-                  <div className={`w-2 h-2 rounded-full mt-2 ${
-                    activity.type === 'ai'
-                      ? 'bg-purple-500'
-                      : activity.type === 'filing'
-                      ? 'bg-blue-500'
-                      : activity.type === 'evidence'
-                      ? 'bg-green-500'
-                      : 'bg-orange-500'
-                  }`}></div>
+                  <div
+                    className={`w-2 h-2 rounded-full mt-2 ${
+                      activity.type === 'ai'
+                        ? 'bg-purple-500'
+                        : activity.type === 'filing'
+                        ? 'bg-blue-500'
+                        : activity.type === 'evidence'
+                        ? 'bg-green-500'
+                        : 'bg-orange-500'
+                    }`}
+                  ></div>
                   <div className="flex-1">
                     <p className="text-sm text-gray-900">{activity.action}</p>
                     <p className="text-xs text-gray-500">{activity.time}</p>
@@ -425,440 +909,349 @@ const CaseBuddy = () => {
     </div>
   );
 
-  const CasesView = () => (
-    <div className="p-6">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Cases</h1>
-        <div className="flex items-center space-x-3">
-          <button className="flex items-center px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
-            <Filter className="w-4 h-4 mr-2" />
-            Filter
-          </button>
-          <button className="flex items-center px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700">
-            <Plus className="w-4 h-4 mr-2" />
-            New Case
-          </button>
+  const AIToolsView = () => (
+    <div className="p-6 space-y-8">
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">AI-Powered Legal Tools</h1>
+        <p className="text-gray-600">
+          Leverage artificial intelligence to enhance your legal practice with working features
+        </p>
+      </div>
+
+      {/* Document Analyzer Section */}
+      <div className="bg-white rounded-xl border border-gray-200 p-6">
+        <div className="flex items-center mb-6">
+          <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center">
+            <FileSearch className="w-6 h-6 text-white" />
+          </div>
+          <div className="ml-4">
+            <h2 className="text-xl font-semibold text-gray-900">Document Analyzer</h2>
+            <p className="text-gray-600">Upload and analyze legal documents with AI</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div>
+            <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+              <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+              <p className="text-gray-600 mb-4">Upload a legal document for analysis</p>
+              <button
+                onClick={() => analyzeDocument({ name: 'sample_complaint.pdf', size: '2.4 MB' })}
+                disabled={isAnalyzing}
+                className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center mx-auto"
+              >
+                {isAnalyzing ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Analyzing...
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="w-4 h-4 mr-2" />
+                    Analyze Sample Document
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+
+          <div>
+            {documentAnalysis && (
+              <div className="space-y-4">
+                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                  <h3 className="font-semibold text-green-900 mb-2">Analysis Complete</h3>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm text-green-600">Document Type:</span>
+                    <span className="text-sm font-medium text-green-900">{documentAnalysis.documentType}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-green-600">Confidence:</span>
+                    <span className="text-sm font-medium text-green-900">{documentAnalysis.confidence}%</span>
+                  </div>
+                </div>
+
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <h4 className="font-semibold text-blue-900 mb-2">Key Findings</h4>
+                  <ul className="space-y-1">
+                    {documentAnalysis.keyFindings.map((finding, index) => (
+                      <li key={index} className="text-sm text-blue-800 flex items-start">
+                        <CheckCircle className="w-3 h-3 text-blue-600 mt-0.5 mr-2 flex-shrink-0" />
+                        {finding}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <button
+                  className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center justify-center"
+                  onClick={() => setActiveView('document-analysis-detail')}
+                >
+                  View Detailed Analysis
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-        {cases.map((case_) => (
-          <div key={case_.id} className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition-shadow cursor-pointer">
-            <div className="flex items-start justify-between mb-4">
-              <div className="flex-1">
-                <h3 className="text-lg font-semibold text-gray-900 mb-1">{case_.title}</h3>
-                <p className="text-sm text-gray-600">{case_.type}</p>
-              </div>
-              <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                case_.status === 'active'
-                  ? 'bg-green-100 text-green-700'
-                  : case_.status === 'discovery'
-                  ? 'bg-blue-100 text-blue-700'
-                  : 'bg-yellow-100 text-yellow-700'
-              }`}>
-                {case_.status}
-              </span>
-            </div>
+      {/* Case Analyzer Section */}
+      <div className="bg-white rounded-xl border border-gray-200 p-6">
+        <div className="flex items-center mb-6">
+          <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
+            <Target className="w-6 h-6 text-white" />
+          </div>
+          <div className="ml-4">
+            <h2 className="text-xl font-semibold text-gray-900">Case Analyzer</h2>
+            <p className="text-gray-600">Comprehensive AI analysis of your case files</p>
+          </div>
+        </div>
 
-            <div className="space-y-3">
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-600">Client:</span>
-                <span className="font-medium text-gray-900">{case_.clientName}</span>
-              </div>
-
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-600">Damages:</span>
-                <span className="font-medium text-gray-900">{case_.damages}</span>
-              </div>
-
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-600">Due:</span>
-                <span className="font-medium text-gray-900">{case_.dueDate}</span>
-              </div>
-
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-600">Progress:</span>
-                <span className="font-medium text-gray-900">{case_.progress}%</span>
-              </div>
-            </div>
-
-            <div className="mt-4">
-              <div className="w-full bg-gray-200 rounded-full h-2 mb-3">
-                <div
-                  className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full"
-                  style={{ width: `${case_.progress}%` }}
-                ></div>
-              </div>
-
-              <div className="flex items-center justify-between text-sm text-gray-500">
-                <span className="flex items-center">
-                  <Database className="w-4 h-4 mr-1" />
-                  {case_.evidenceCount} evidence
-                </span>
-                <span className="flex items-center">
-                  <FileText className="w-4 h-4 mr-1" />
-                  {case_.filingCount} filings
-                </span>
-              </div>
-            </div>
-
-            <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
-              <span className="text-xs text-gray-500">Updated {case_.lastActivity}</span>
-              <div className="flex items-center space-x-2">
-                <button className="p-1 hover:bg-gray-100 rounded">
-                  <Eye className="w-4 h-4 text-gray-600" />
-                </button>
-                <button className="p-1 hover:bg-gray-100 rounded">
-                  <Edit3 className="w-4 h-4 text-gray-600" />
-                </button>
-                <button className="p-1 hover:bg-gray-100 rounded">
-                  <MoreVertical className="w-4 h-4 text-gray-600" />
-                </button>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div>
+            <div className="space-y-4">
+              <div className="bg-gray-50 rounded-lg p-4">
+                <h3 className="font-semibold text-gray-900 mb-2">Select Case for Analysis</h3>
+                <div className="space-y-2">
+                  {cases.map((case_) => (
+                    <div
+                      key={case_.id}
+                      className="flex items-center justify-between p-3 border border-gray-200 rounded-lg"
+                    >
+                      <div>
+                        <p className="font-medium text-gray-900">{case_.title}</p>
+                        <p className="text-sm text-gray-600">{case_.evidenceCount} evidence items</p>
+                      </div>
+                      <button
+                        onClick={() => analyzeCaseFile(case_.id)}
+                        disabled={isAnalyzingCase}
+                        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 text-sm"
+                      >
+                        {isAnalyzingCase ? 'Analyzing...' : 'Analyze'}
+                      </button>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
-        ))}
-      </div>
-    </div>
-  );
 
-  const EvidenceView = () => (
-    <div className="p-6">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Evidence Management</h1>
-        <div className="flex items-center space-x-3">
-          <button className="flex items-center px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
-            <Filter className="w-4 h-4 mr-2" />
-            Filter
-          </button>
-          <button className="flex items-center px-4 py-2 bg-gradient-to-r from-green-600 to-blue-600 text-white rounded-lg hover:from-green-700 hover:to-blue-700">
-            <Upload className="w-4 h-4 mr-2" />
-            Upload Evidence
-          </button>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {evidenceItems.map((item) => (
-          <div key={item.id} className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition-shadow">
-            <div className="flex items-start justify-between mb-4">
-              <div className="flex items-center">
-                {item.type === 'video' && <Video className="w-8 h-8 text-blue-600 mr-3" />}
-                {item.type === 'pdf' && <FileText className="w-8 h-8 text-red-600 mr-3" />}
-                {item.type === 'text' && <BookOpen className="w-8 h-8 text-green-600 mr-3" />}
-                <div>
-                  <h3 className="font-semibold text-gray-900">{item.title}</h3>
-                  <p className="text-sm text-gray-600">{item.size}</p>
-                </div>
-              </div>
-              <button className="text-gray-400 hover:text-gray-600">
-                <MoreVertical className="w-4 h-4" />
-              </button>
-            </div>
-
-            <div className="flex flex-wrap gap-2 mb-4">
-              {item.tags.map((tag, index) => (
-                <span key={index} className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">
-                  {tag}
-                </span>
-              ))}
-            </div>
-
-            <div className="flex items-center justify-between text-sm mb-4">
-              <span className="text-gray-600">Added: {item.dateAdded}</span>
-              <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                item.status === 'analyzed'
-                  ? 'bg-green-100 text-green-700'
-                  : item.status === 'reviewed'
-                  ? 'bg-blue-100 text-blue-700'
-                  : 'bg-yellow-100 text-yellow-700'
-              }`}>
-                {item.status}
-              </span>
-            </div>
-
-            {item.aiConfidence > 0 && (
-              <div className="mb-4">
-                <div className="flex items-center justify-between text-sm mb-1">
-                  <span className="text-gray-600">AI Confidence</span>
-                  <span className="font-medium text-gray-900">{item.aiConfidence}%</span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div
-                    className="bg-gradient-to-r from-green-500 to-blue-500 h-2 rounded-full"
-                    style={{ width: `${item.aiConfidence}%` }}
-                  ></div>
-                </div>
+          <div>
+            {isAnalyzingCase && (
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 text-center">
+                <Loader2 className="w-8 h-8 text-blue-600 mx-auto mb-4 animate-spin" />
+                <p className="text-blue-900 font-medium">Analyzing Case Files...</p>
+                <p className="text-blue-600 text-sm">Processing evidence, filings, and timeline data</p>
               </div>
             )}
 
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-2">
-                <button className="flex items-center px-3 py-1 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 text-sm">
-                  <Eye className="w-4 h-4 mr-1" />
-                  View
+            {caseAnalysisResult && (
+              <div className="space-y-4">
+                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                  <h3 className="font-semibold text-green-900 mb-3">Case Analysis Complete</h3>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-green-900">{caseAnalysisResult.winProbability}%</div>
+                      <div className="text-sm text-green-600">Win Probability</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-green-900">{caseAnalysisResult.overallScore}</div>
+                      <div className="text-sm text-green-600">Overall Score</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <h4 className="font-semibold text-blue-900 mb-2">Key Strengths</h4>
+                  <ul className="space-y-1">
+                    {caseAnalysisResult.caseTheory.strengths.slice(0, 3).map((strength, index) => (
+                      <li key={index} className="text-sm text-blue-800 flex items-start">
+                        <CheckCircle className="w-3 h-3 text-blue-600 mt-0.5 mr-2 flex-shrink-0" />
+                        {strength}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <button
+                  className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center justify-center"
+                  onClick={() => setActiveView('case-analysis-detail')}
+                >
+                  View Full Analysis
+                  <ArrowRight className="w-4 h-4 ml-2" />
                 </button>
-                <button className="flex items-center px-3 py-1 bg-purple-50 text-purple-600 rounded-lg hover:bg-purple-100 text-sm">
-                  <Brain className="w-4 h-4 mr-1" />
-                  Analyze
-                </button>
               </div>
-              <button className="p-2 hover:bg-gray-100 rounded">
-                <Download className="w-4 h-4 text-gray-600" />
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-
-  const AIToolsView = () => (
-    <div className="p-6">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">AI-Powered Legal Tools</h1>
-        <p className="text-gray-600">Leverage artificial intelligence to enhance your legal practice</p>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {/* Document Analyzer */}
-        <div className="bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-200 rounded-xl p-6">
-          <div className="flex items-center mb-4">
-            <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center">
-              <FileText className="w-6 h-6 text-white" />
-            </div>
-            <div className="ml-4">
-              <h3 className="text-lg font-semibold text-purple-900">Document Analyzer</h3>
-              <p className="text-sm text-purple-600">OCR + AI Analysis</p>
-            </div>
-          </div>
-          <p className="text-gray-700 mb-4">Upload any legal document for instant OCR processing and AI-powered analysis including case law extraction, key issues identification, and strategic insights.</p>
-          <button className="w-full px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
-            Start Analysis
-          </button>
-        </div>
-
-        {/* Case Strategy Simulator */}
-        <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-6">
-          <div className="flex items-center mb-4">
-            <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
-              <Target className="w-6 h-6 text-white" />
-            </div>
-            <div className="ml-4">
-              <h3 className="text-lg font-semibold text-blue-900">Strategy Simulator</h3>
-              <p className="text-sm text-blue-600">Test Arguments</p>
-            </div>
-          </div>
-          <p className="text-gray-700 mb-4">Simulate different legal strategies and arguments. Get AI predictions on case outcomes, potential counterarguments, and strategic recommendations.</p>
-          <button className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-            Launch Simulator
-          </button>
-        </div>
-
-        {/* Timeline Builder */}
-        <div className="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-xl p-6">
-          <div className="flex items-center mb-4">
-            <div className="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center">
-              <Clock className="w-6 h-6 text-white" />
-            </div>
-            <div className="ml-4">
-              <h3 className="text-lg font-semibold text-green-900">Timeline Builder</h3>
-              <p className="text-sm text-green-600">Chronology AI</p>
-            </div>
-          </div>
-          <p className="text-gray-700 mb-4">Automatically extract dates and events from evidence to build comprehensive case timelines. Identify gaps and inconsistencies in testimony.</p>
-          <button className="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
-            Build Timeline
-          </button>
-        </div>
-
-        {/* Document Drafter */}
-        <div className="bg-gradient-to-br from-orange-50 to-red-50 border border-orange-200 rounded-xl p-6">
-          <div className="flex items-center mb-4">
-            <div className="w-12 h-12 bg-orange-600 rounded-lg flex items-center justify-center">
-              <Edit3 className="w-6 h-6 text-white" />
-            </div>
-            <div className="ml-4">
-              <h3 className="text-lg font-semibold text-orange-900">Document Drafter</h3>
-              <p className="text-sm text-orange-600">AI Legal Writing</p>
-            </div>
-          </div>
-          <p className="text-gray-700 mb-4">Generate professional legal documents including motions, complaints, discovery requests, and responses using AI-powered templates and legal precedents.</p>
-          <button className="w-full px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors">
-            Start Drafting
-          </button>
-        </div>
-
-        {/* Pattern Recognition */}
-        <div className="bg-gradient-to-br from-teal-50 to-cyan-50 border border-teal-200 rounded-xl p-6">
-          <div className="flex items-center mb-4">
-            <div className="w-12 h-12 bg-teal-600 rounded-lg flex items-center justify-center">
-              <Activity className="w-6 h-6 text-white" />
-            </div>
-            <div className="ml-4">
-              <h3 className="text-lg font-semibold text-teal-900">Pattern Recognition</h3>
-              <p className="text-sm text-teal-600">Evidence Patterns</p>
-            </div>
-          </div>
-          <p className="text-gray-700 mb-4">Identify patterns across evidence, witnesses, and case law. Discover hidden connections and strengthen your legal arguments with data-driven insights.</p>
-          <button className="w-full px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors">
-            Find Patterns
-          </button>
-        </div>
-
-        {/* Legal Research Assistant */}
-        <div className="bg-gradient-to-br from-indigo-50 to-purple-50 border border-indigo-200 rounded-xl p-6">
-          <div className="flex items-center mb-4">
-            <div className="w-12 h-12 bg-indigo-600 rounded-lg flex items-center justify-center">
-              <BookOpen className="w-6 h-6 text-white" />
-            </div>
-            <div className="ml-4">
-              <h3 className="text-lg font-semibold text-indigo-900">Research Assistant</h3>
-              <p className="text-sm text-indigo-600">Case Law & Statutes</p>
-            </div>
-          </div>
-          <p className="text-gray-700 mb-4">Intelligent legal research powered by AI. Find relevant case law, statutes, and legal precedents. Get summaries and cite checks automatically.</p>
-          <button className="w-full px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
-            Start Research
-          </button>
-        </div>
-      </div>
-
-      {/* AI Analytics Dashboard */}
-      <div className="mt-8 bg-white rounded-xl border border-gray-200 p-6">
-        <h2 className="text-xl font-semibold text-gray-900 mb-6">AI Analytics Dashboard</h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="text-center">
-            <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Brain className="w-8 h-8 text-purple-600" />
-            </div>
-            <h3 className="text-lg font-semibold text-gray-900">247</h3>
-            <p className="text-sm text-gray-600">Documents Analyzed</p>
-          </div>
-
-          <div className="text-center">
-            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
-              <TrendingUp className="w-8 h-8 text-blue-600" />
-            </div>
-            <h3 className="text-lg font-semibold text-gray-900">94%</h3>
-            <p className="text-sm text-gray-600">Average Accuracy</p>
-          </div>
-
-          <div className="text-center">
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Zap className="w-8 h-8 text-green-600" />
-            </div>
-            <h3 className="text-lg font-semibold text-gray-900">2.3x</h3>
-            <p className="text-sm text-gray-600">Productivity Boost</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-
-  const AnalyticsView = () => (
-    <div className="p-6">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Analytics & Insights</h1>
-        <p className="text-gray-600">Track your legal practice performance and case outcomes</p>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        {/* Win Rate Chart */}
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Case Win Rate Trends</h3>
-          <div className="h-64 bg-gradient-to-t from-blue-50 to-transparent rounded-lg flex items-end justify-center">
-            <div className="text-center">
-              <div className="text-4xl font-bold text-blue-600 mb-2">87%</div>
-              <div className="text-sm text-gray-600">Overall Win Rate</div>
-              <div className="text-xs text-green-600">+5% vs last year</div>
-            </div>
-          </div>
-        </div>
-
-        {/* Case Types Distribution */}
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Case Types</h3>
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">Civil Rights (§1983)</span>
-              <div className="flex items-center">
-                <div className="w-32 h-2 bg-gray-200 rounded-full mr-3">
-                  <div className="w-20 h-2 bg-blue-600 rounded-full"></div>
-                </div>
-                <span className="text-sm font-medium">62%</span>
-              </div>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">Employment Law</span>
-              <div className="flex items-center">
-                <div className="w-32 h-2 bg-gray-200 rounded-full mr-3">
-                  <div className="w-10 h-2 bg-green-600 rounded-full"></div>
-                </div>
-                <span className="text-sm font-medium">31%</span>
-              </div>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">Housing Rights</span>
-              <div className="flex items-center">
-                <div className="w-32 h-2 bg-gray-200 rounded-full mr-3">
-                  <div className="w-2 h-2 bg-purple-600 rounded-full"></div>
-                </div>
-                <span className="text-sm font-medium">7%</span>
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
 
-      {/* Performance Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-6 text-center">
-          <Award className="w-8 h-8 text-blue-600 mx-auto mb-3" />
-          <div className="text-2xl font-bold text-blue-900">$2.4M</div>
-          <div className="text-sm text-blue-600">Total Damages Won</div>
-        </div>
-
-        <div className="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-xl p-6 text-center">
-          <Clock className="w-8 h-8 text-green-600 mx-auto mb-3" />
-          <div className="text-2xl font-bold text-green-900">8.3</div>
-          <div className="text-sm text-green-600">Avg Months to Resolution</div>
-        </div>
-
-        <div className="bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-200 rounded-xl p-6 text-center">
-          <Users className="w-8 h-8 text-purple-600 mx-auto mb-3" />
-          <div className="text-2xl font-bold text-purple-900">156</div>
-          <div className="text-sm text-purple-600">Clients Served</div>
-        </div>
-
-        <div className="bg-gradient-to-br from-orange-50 to-red-50 border border-orange-200 rounded-xl p-6 text-center">
-          <TrendingUp className="w-8 h-8 text-orange-600 mx-auto mb-3" />
-          <div className="text-2xl font-bold text-orange-900">94%</div>
-          <div className="text-sm text-orange-600">Client Satisfaction</div>
-        </div>
-      </div>
-
-      {/* Recent Case Outcomes */}
+      {/* Document Drafter Section */}
       <div className="bg-white rounded-xl border border-gray-200 p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Case Outcomes</h3>
-        <div className="space-y-3">
-          {[
-            { case: 'Johnson v. Metro PD', outcome: 'Settlement', amount: '$450,000', type: 'Civil Rights' },
-            { case: 'Davis v. Tech Corp', outcome: 'Verdict', amount: '$275,000', type: 'Employment' },
-            { case: 'Williams v. Housing Auth', outcome: 'Settlement', amount: '$85,000', type: 'Housing' }
-          ].map((outcome, index) => (
-            <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-              <div>
-                <div className="font-medium text-gray-900">{outcome.case}</div>
-                <div className="text-sm text-gray-600">{outcome.type}</div>
+        <div className="flex items-center mb-6">
+          <div className="w-12 h-12 bg-orange-600 rounded-lg flex items-center justify-center">
+            <Edit3 className="w-6 h-6 text-white" />
+          </div>
+          <div className="ml-4">
+            <h2 className="text-xl font-semibold text-gray-900">Document Drafter</h2>
+            <p className="text-gray-600">AI-powered legal document generation</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Document Type</label>
+              <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                <option value="motion_summary_judgment">Motion for Summary Judgment</option>
+                <option value="discovery_requests">Discovery Requests</option>
+                <option value="complaint_civil_rights">Civil Rights Complaint</option>
+                <option value="response_motion">Response to Motion</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Case Context</label>
+              <textarea
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                rows={3}
+                placeholder="Provide case details and specific requirements..."
+              />
+            </div>
+
+            <button
+              onClick={() => draftDocument('motion_summary_judgment', 'Sample motion requirements')}
+              disabled={isDrafting}
+              className="w-full px-6 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+            >
+              {isDrafting ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Drafting Document...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="w-4 h-4 mr-2" />
+                  Generate Document
+                </>
+              )}
+            </button>
+          </div>
+
+          <div>
+            {draftedDocument && (
+              <div className="space-y-4">
+                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                  <h3 className="font-semibold text-green-900 mb-2">Document Generated</h3>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm text-green-600">Type:</span>
+                    <span className="text-sm font-medium text-green-900 capitalize">
+                      {draftedDocument.type.replace('_', ' ')}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-green-600">Words:</span>
+                    <span className="text-sm font-medium text-green-900">
+                      {draftedDocument.metadata.wordCount}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 max-h-64 overflow-y-auto">
+                  <pre className="text-xs text-gray-800 whitespace-pre-wrap font-mono">
+                    {draftedDocument.content.substring(0, 500)}...
+                  </pre>
+                </div>
+
+                <div className="flex space-x-2">
+                  <button className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm">
+                    Edit Document
+                  </button>
+                  <button className="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm">
+                    Save to Case
+                  </button>
+                </div>
               </div>
-              <div className="text-right">
-                <div className="font-medium text-green-600">{outcome.amount}</div>
-                <div className="text-sm text-gray-600">{outcome.outcome}</div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Timeline Builder Section */}
+      <div className="bg-white rounded-xl border border-gray-200 p-6">
+        <div className="flex items-center mb-6">
+          <div className="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center">
+            <Clock className="w-6 h-6 text-white" />
+          </div>
+          <div className="ml-4">
+            <h2 className="text-xl font-semibold text-gray-900">Timeline Builder</h2>
+            <p className="text-gray-600">AI-generated case chronology from evidence</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div>
+            <button
+              onClick={createTimeline}
+              disabled={isCreatingTimeline}
+              className="w-full px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center mb-4"
+            >
+              {isCreatingTimeline ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Building Timeline...
+                </>
+              ) : (
+                <>
+                  <Clock className="w-4 h-4 mr-2" />
+                  Build Timeline
+                </>
+              )}
+            </button>
+
+            <div className="bg-gray-50 rounded-lg p-4">
+              <h3 className="font-semibold text-gray-900 mb-2">Source Evidence</h3>
+              <div className="space-y-2">
+                {evidenceItems.slice(0, 3).map((item) => (
+                  <div key={item.id} className="flex items-center text-sm">
+                    <CheckCircle className="w-4 h-4 text-green-600 mr-2" />
+                    <span className="text-gray-700">{item.title}</span>
+                  </div>
+                ))}
               </div>
             </div>
-          ))}
+          </div>
+
+          <div className="lg:col-span-2">
+            {timelineEvents.length > 0 && (
+              <div className="space-y-4">
+                <h3 className="font-semibold text-gray-900">Generated Timeline</h3>
+                <div className="space-y-3">
+                  {timelineEvents.map((event, index) => (
+                    <div key={index} className="flex items-start space-x-3">
+                      <div
+                        className={`w-3 h-3 rounded-full mt-2 ${
+                          event.significance === 'critical'
+                            ? 'bg-red-500'
+                            : event.significance === 'high'
+                            ? 'bg-orange-500'
+                            : 'bg-blue-500'
+                        }`}
+                      ></div>
+                      <div className="flex-1 bg-gray-50 rounded-lg p-3">
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="font-medium text-gray-900">{event.event}</span>
+                          <span className="text-sm text-gray-500">{event.date} {event.time}</span>
+                        </div>
+                        <p className="text-sm text-gray-700 mb-1">{event.description}</p>
+                        <span className="text-xs text-blue-600">Source: {event.source}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
@@ -868,14 +1261,8 @@ const CaseBuddy = () => {
     switch (activeView) {
       case 'dashboard':
         return <Dashboard />;
-      case 'cases':
-        return <CasesView />;
-      case 'evidence':
-        return <EvidenceView />;
       case 'ai-tools':
         return <AIToolsView />;
-      case 'analytics':
-        return <AnalyticsView />;
       default:
         return <Dashboard />;
     }
@@ -886,9 +1273,7 @@ const CaseBuddy = () => {
       <Sidebar />
       <div className="flex-1 flex flex-col overflow-hidden">
         <TopBar />
-        <main className="flex-1 overflow-auto">
-          {renderView()}
-        </main>
+        <main className="flex-1 overflow-auto">{renderView()}</main>
       </div>
     </div>
   );
