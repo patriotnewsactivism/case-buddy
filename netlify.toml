@@ -1,7 +1,11 @@
 [build]
   command = "npm run build"
-  publish = "build"  # Change from "dist" to "build"
-  environment = { ANTHROPIC_API_KEY = "", NODE_VERSION = "" }
+  publish = "build"
+  
+  # Environment variables should be under [build.environment]
+  [build.environment]
+    NODE_VERSION = "20.18.0"
+    CI = "false"
 
-[build.environment]
-  NODE_VERSION = "20.18.0"
+[functions]
+  directory = "netlify/functions"
