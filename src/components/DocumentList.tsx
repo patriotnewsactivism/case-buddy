@@ -24,7 +24,14 @@ export const DocumentList: React.FC<DocumentListProps> = ({ caseId }) => {
         schema: 'public',
         table: 'documents',
         filter: `case_id=eq.${caseId}`
-      }, [])(payload) => {
+      useEffect(() => {
+  const handleDocumentUpdate = (payload: any) => {
+    console.log('Document updated:', payload)
+    fetchDocuments() // Refresh list
+  }
+  // Call handleDocumentUpdate if needed within useEffect
+}, [])
+
         console.log('Document updated:', payload)
         fetchDocuments() // Refresh list
       })
