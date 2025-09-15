@@ -34,7 +34,6 @@ export const DocumentList: React.FC<DocumentListProps> = ({ caseId }) => {
       fetchDocuments() // Refresh list
     }
 
-    fetchDocuments()
 
     // Subscribe to real-time updates
     const subscription = supabase
