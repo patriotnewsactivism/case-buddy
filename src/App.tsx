@@ -8,7 +8,7 @@ import { Session } from '@supabase/supabase-js'
 export default function App() {
   const [session, setSession] = useState<Session | null>(null)
   const [loading, setLoading] = useState(true)
-  const [selectedCaseId, setSelectedCaseId] = useState<string>('')
+  const [selectedCaseId] = useState<string | null>(null);
 
   useEffect(() => {
     // Get initial session

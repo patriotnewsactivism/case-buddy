@@ -12,7 +12,7 @@ export const DocumentList: React.FC<DocumentListProps> = ({ caseId }) => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetchDocuments()
+    }, [fetchDocuments]);
 
     // Subscribe to real-time updates
     const subscription = supabase
