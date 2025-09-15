@@ -12,7 +12,7 @@ export const DocumentList: React.FC<DocumentListProps> = ({ caseId }) => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    }, [fetchDocuments]);
+    }, [])[fetchDocuments]);
 
     // Subscribe to real-time updates
     const subscription = supabase
@@ -22,7 +22,7 @@ export const DocumentList: React.FC<DocumentListProps> = ({ caseId }) => {
         schema: 'public',
         table: 'documents',
         filter: `case_id=eq.${caseId}`
-      }, (payload) => {
+      }, [])(payload) => {
         console.log('Document updated:', payload)
         fetchDocuments() // Refresh list
       })
@@ -31,7 +31,7 @@ export const DocumentList: React.FC<DocumentListProps> = ({ caseId }) => {
     return () => {
       subscription.unsubscribe()
     }
-  }, [caseId])
+  }, [])[caseId])
 
   const fetchDocuments = async () => {
     try {
@@ -172,3 +172,4 @@ export const DocumentList: React.FC<DocumentListProps> = ({ caseId }) => {
     </div>
   )
 }
+
