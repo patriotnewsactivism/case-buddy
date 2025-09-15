@@ -11,37 +11,6 @@ export const DocumentList: React.FC<DocumentListProps> = ({ caseId }) => {
   const [documents, setDocuments] = useState<Document[]>([])
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-  // code here
-}, [fetchDocuments]);
-
-
-    // Subscribe to real-time updates
-    const subscription = supabase
-      .channel('documents')
-      .on('postgres_changes', {
-        event: '*',
-        schema: 'public',
-        table: 'documents',
-        filter: `case_id=eq.${caseId}`
-      useEffect(() => {
-  const handleDocumentUpdate = (payload: any) => {
-    console.log('Document updated:', payload)
-    fetchDocuments() // Refresh list
-  }
-  // Call handleDocumentUpdate if needed within useEffect
-}, [])
-
-        console.log('Document updated:', payload)
-        fetchDocuments() // Refresh list
-      })
-      .subscribe()
-
-    return () => {
-      subscription.unsubscribe()
-    }
-  }, [])[caseId])
-
   const fetchDocuments = async () => {
     try {
       const { data, error } = await supabase
@@ -58,6 +27,30 @@ export const DocumentList: React.FC<DocumentListProps> = ({ caseId }) => {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    const handleDocumentUpdate = (payload: any) => {
+      console.log('Document updated:', payload)
+      fetchDocuments() // Refresh list
+    }
+
+    fetchDocuments()
+
+    // Subscribe to real-time updates
+    const subscription = supabase
+      .channel('documents')
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'documents',
+        filter: `case_id=eq.${caseId}`
+      }, handleDocumentUpdate)
+      .subscribe()
+
+    return () => {
+      subscription.unsubscribe()
+    }
+  }, [caseId])
 
   const getFileIcon = (fileType: string) => {
     if (fileType?.includes('pdf')) return <FileText className="w-6 h-6 text-red-600" />
@@ -181,4 +174,3 @@ export const DocumentList: React.FC<DocumentListProps> = ({ caseId }) => {
     </div>
   )
 }
-
