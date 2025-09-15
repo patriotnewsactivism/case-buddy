@@ -4,7 +4,7 @@ functions = "netlify/functions"
 publish = "dist"
 
 [build.environment]
-NODE_VERSION = "18"
+NODE_VERSION = "20"
 
 [[plugins]]
 package = "@netlify/plugin-functions-install-core"
