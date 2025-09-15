@@ -1,26 +1,10 @@
 [build]
-  command = "npm run build"
-  publish = "build"
-  functions = "functions"
+command = "npm run build"
+functions = "netlify/functions"
+publish = "dist"
 
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+[build.environment]
+NODE_VERSION = "18"
 
-[dev]
-  command = "npm start"
-  port = 3000
-  publish = "public"
-  
-[functions]
-  directory = "functions"
-  
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Frame-Options = "DENY"
-    X-XSS-Protection = "1; mode=block"
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "no-referrer"
-    Permissions-Policy = "geolocation=(), midi=(), sync-xhr=(), microphone=(), camera=(), magnetometer=(), gyroscope=(), fullscreen=(self), payment=()"
+[[plugins]]
+package = "@netlify/plugin-functions-install-core"
