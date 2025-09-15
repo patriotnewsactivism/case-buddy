@@ -5,6 +5,7 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.38.4",
     "cross-env": "^7.0.3",
+    "formidable": "^3.5.4",
     "framer-motion": "^10.12.16",
     "lucide-react": "^0.263.1",
     "mammoth": "^1.6.0",
