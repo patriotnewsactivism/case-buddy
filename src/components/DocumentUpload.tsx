@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { supabase } from '../lib/supabase'
-import { Upload, AlertCircle, Loader2 } from 'lucide-react'
+import { Upload, FileText, CheckCircle, } from 'lucide-react'
 import { v4 as uuidv4 } from 'uuid'
 
 interface DocumentUploadProps {
