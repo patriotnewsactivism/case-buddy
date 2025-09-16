@@ -606,7 +606,8 @@ Attorney for Plaintiff`
     { id: 'filings', label: 'Filings', icon: FileText, color: 'text-orange-600' },
     { id: 'calendar', label: 'Calendar', icon: Calendar, color: 'text-red-600' },
     { id: 'witnesses', label: 'Witnesses', icon: Users, color: 'text-indigo-600' },
-    { id: 'ai-tools', label: 'AI Tools', icon: Brain, color: 'text-pink-600' },
+    { id: 'legal-tools', label: 'Legal Tools', icon: Gavel, color: 'text-pink-600' },
+    { id: 'ai-tools', label: 'AI Tools', icon: Brain, color: 'text-indigo-600' },
     { id: 'analytics', label: 'Analytics', icon: BarChart3, color: 'text-teal-600' }
   ];
 
@@ -1257,12 +1258,21 @@ Attorney for Plaintiff`
     </div>
   );
 
+  // Import our new LegalTools page
+  const LegalTools = React.lazy(() => import('./pages/LegalTools'));
+
   const renderView = () => {
     switch (activeView) {
       case 'dashboard':
         return <Dashboard />;
       case 'ai-tools':
         return <AIToolsView />;
+      case 'legal-tools':
+        return (
+          <React.Suspense fallback={<div className="p-6 text-center">Loading Legal Tools...</div>}>
+            <LegalTools />
+          </React.Suspense>
+        );
       default:
         return <Dashboard />;
     }
