@@ -71,6 +71,9 @@ export function Sidebar({ className }: SidebarProps) {
       title: "LEGAL TOOLS",
       items: [
         { href: "/annotations", label: "Annotations", icon: Highlighter },
+           { href: "/legal-tools/public-records", label: "Public Records", icon: FileText },
+           { href: "/legal-tools/cannabis-laws", label: "Cannabis Laws", icon: Scale },
+           { href: "/legal-tools/document-templates", label: "Document Templates", icon: FileText },
         { href: "/export", label: "Export Reports", icon: Download },
       ]
     },
