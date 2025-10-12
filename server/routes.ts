@@ -16,6 +16,11 @@ import { precedentResearchService } from "./services/precedentResearch";
 import { semanticSearchService } from "./services/semanticSearch";
 import { couponService } from "./services/couponService";
 import { transcriptionService } from "./services/transcriptionService";
+import { aiDocumentAnalyzer } from "./services/aiDocumentAnalyzer";
+import { aiEvidenceClassifier } from "./services/aiEvidenceClassifier";
+import { aiTimelinePredictor } from "./services/aiTimelinePredictor";
+import { aiFoiaOptimizer } from "./services/aiFoiaOptimizer";
+import { aiLegalResearch } from "./services/aiLegalResearch";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Middleware
@@ -602,6 +607,142 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ 
         success: false, 
         error: error.message || 'Failed to create coupons' 
+      });
+    }
+  });
+
+  // AI Document Analysis
+  app.post("/api/documents/analyze", authenticateUser, async (req, res) => {
+    try {
+      const { documentText, documentType } = req.body;
+      
+      if (!documentText) {
+        return res.status(400).json({ error: "Document text is required" });
+      }
+
+      const analysis = await aiDocumentAnalyzer.analyzeDocument(documentText, documentType);
+      
+      res.json({
+        success: true,
+        analysis
+      });
+    } catch (error: any) {
+      console.error('Document analysis error:', error);
+      res.status(500).json({ 
+        success: false, 
+        error: error.message || 'Failed to analyze document' 
+      });
+    }
+  });
+
+  // AI Evidence Classification
+  app.post("/api/evidence/classify", authenticateUser, async (req, res) => {
+    try {
+      const { evidenceName, evidenceDescription, fileType } = req.body;
+      
+      if (!evidenceName || !evidenceDescription) {
+        return res.status(400).json({ error: "Evidence name and description are required" });
+      }
+
+      const classification = await aiEvidenceClassifier.classifyEvidence(
+        evidenceName,
+        evidenceDescription,
+        fileType
+      );
+      
+      res.json({
+        success: true,
+        classification
+      });
+    } catch (error: any) {
+      console.error('Evidence classification error:', error);
+      res.status(500).json({ 
+        success: false, 
+        error: error.message || 'Failed to classify evidence' 
+      });
+    }
+  });
+
+  // AI Timeline Prediction
+  app.post("/api/timeline/predict", authenticateUser, async (req, res) => {
+    try {
+      const { caseType, existingEvents, jurisdiction } = req.body;
+      
+      if (!caseType || !existingEvents) {
+        return res.status(400).json({ error: "Case type and existing events are required" });
+      }
+
+      const prediction = await aiTimelinePredictor.predictTimeline(
+        caseType,
+        existingEvents,
+        jurisdiction
+      );
+      
+      res.json({
+        success: true,
+        prediction
+      });
+    } catch (error: any) {
+      console.error('Timeline prediction error:', error);
+      res.status(500).json({ 
+        success: false, 
+        error: error.message || 'Failed to predict timeline' 
+      });
+    }
+  });
+
+  // AI FOIA Optimization
+  app.post("/api/foia/optimize", authenticateUser, async (req, res) => {
+    try {
+      const { originalRequest, agency, subject } = req.body;
+      
+      if (!originalRequest || !agency || !subject) {
+        return res.status(400).json({ error: "Original request, agency, and subject are required" });
+      }
+
+      const optimization = await aiFoiaOptimizer.optimizeFoiaRequest(
+        originalRequest,
+        agency,
+        subject
+      );
+      
+      res.json({
+        success: true,
+        optimization
+      });
+    } catch (error: any) {
+      console.error('FOIA optimization error:', error);
+      res.status(500).json({ 
+        success: false, 
+        error: error.message || 'Failed to optimize FOIA request' 
+      });
+    }
+  });
+
+  // AI Legal Research
+  app.post("/api/research/conduct", authenticateUser, async (req, res) => {
+    try {
+      const { legalIssue, jurisdiction, caseType } = req.body;
+      
+      if (!legalIssue || !jurisdiction || !caseType) {
+        return res.status(400).json({ error: "Legal issue, jurisdiction, and case type are required" });
+      }
+
+      const research = await aiLegalResearch.conductResearch(
+        legalIssue,
+        jurisdiction,
+        caseType
+      );
+      
+      res.json({
+        success: true,
+        research
+      });
+    } catch (error: any) {
+      console.error('Legal research error:', error);
+      res.status(500).json({ 
+        success: false, 
+        error: error.message || 'Failed to conduct legal research' 
       });
     }
   });
