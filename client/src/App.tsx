@@ -27,6 +27,9 @@ import SubscriptionPage from "@/pages/subscription";
 import Documentation from "@/pages/documentation";
 import AdminCoupons from "@/pages/admin-coupons";
 import NotFound from "@/pages/not-found";
+import PublicRecordsGenerator from "@/pages/legal-tools/public-records-generator";
+import CannabisLawLookup from "@/pages/legal-tools/cannabis-law-lookup";
+import DocumentTemplates from "@/pages/legal-tools/document-templates";
 
 function ProtectedRouter() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -67,6 +70,9 @@ function ProtectedRouter() {
       <Route path="/subscription" component={SubscriptionPage} />
       <Route path="/documentation" component={Documentation} />
       <Route path="/admin/coupons" component={AdminCoupons} />
+      <Route path="/legal-tools/public-records" component={PublicRecordsGenerator} />
+      <Route path="/legal-tools/cannabis-laws" component={CannabisLawLookup} />
+      <Route path="/legal-tools/document-templates" component={DocumentTemplates} />
       <Route component={NotFound} />
     </Switch>
   );
