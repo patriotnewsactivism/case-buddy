@@ -4,6 +4,8 @@
   "version": "0.1.0",
   "dependencies": {
     "@radix-ui/react-tabs": "^1.1.13",
+    "@stripe/react-stripe-js": "^5.2.0",
+    "@stripe/stripe-js": "^8.0.0",
     "@supabase/supabase-js": "^2.38.4",
     "cross-env": "^7.0.3",
     "formidable": "^3.5.4",
@@ -17,6 +19,7 @@
     "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.45.1",
     "react-router-dom": "^6.24.0",
+    "stripe": "^19.1.0",
     "supabase": "^2.38.4",
     "tesseract.js": "^5.0.2",
     "uuid": "^9.0.1"
